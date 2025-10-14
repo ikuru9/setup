@@ -1,0 +1,59 @@
+[column]  
+ui = auto  
+[branch]  
+sort = -committerdate  
+[tag]  
+sort = version:refname  
+[init]  
+defaultBranch = main  
+[diff]  
+algorithm = histogram  
+colorMoved = plain  
+mnemonicPrefix = true  
+renames = true  
+[push]  
+default = simple  
+autoSetupRemote = true  
+followTags = true  
+[fetch]  
+prune = true  
+pruneTags = true  
+all = true  
+
+# 쓰지 않을 이유가?  
+
+[help]  
+autocorrect = prompt  
+[commit]  
+verbose = true  
+[rerere]  
+enabled = true  
+autoupdate = true  
+[core]
+editor = code --wait
+excludesfile = ~/.gitignore  
+[rebase]  
+autoSquash = true  
+autoStash = true  
+updateRefs = true  
+
+# 개인 취향에 따른 설정 (필요 시 주석 해제하고 사용)  
+[core]  
+pager = delta
+fsmonitor = true  
+untrackedCache = true 
+
+[delta]  
+line-numbers = true  
+side-by-side = true  
+navigate = true  
+diff-so-fancy = true  
+hyperlinks = true  
+ 
+[merge]  
+# (Git 버전이 2.3 미만인 경우 ‘diff3’ 사용)  
+conflictstyle = zdiff3
+
+[apply]
+# Remove trailling whitespaces
+whitespace = fix 
