@@ -1,0 +1,86 @@
+# -------------------------------------------------
+# Starship prompt config (recommended)
+# -------------------------------------------------
+
+# 전체 프롬프트 포맷
+format = """
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$rust\
+$golang\
+$python\
+$cmd_duration\
+$line_break\
+$character
+"""
+
+# 프롬프트 반응 속도
+scan_timeout = 10
+command_timeout = 1000
+
+# -------------------------------------------------
+# Directory
+# -------------------------------------------------
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncate_to_repo = true
+
+# -------------------------------------------------
+# Git
+# -------------------------------------------------
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "yellow"
+format = "([$all_status$ahead_behind]($style)) "
+conflicted = "⚠ "
+ahead = "⇡${count} "
+behind = "⇣${count} "
+modified = "✎ "
+staged = "+ "
+untracked = "? "
+renamed = "» "
+deleted = "✘ "
+
+# -------------------------------------------------
+# Node.js (fnm / nvm / asdf 모두 대응)
+# -------------------------------------------------
+[nodejs]
+symbol = " "
+format = "[$symbol($version )]($style)"
+style = "bold green"
+
+# -------------------------------------------------
+# Other languages (필요 없으면 지워도 됨)
+# -------------------------------------------------
+[python]
+symbol = " "
+style = "blue"
+
+[golang]
+symbol = " "
+style = "cyan"
+
+[rust]
+symbol = "🦀 "
+style = "red"
+
+# -------------------------------------------------
+# Command duration (느린 명령만 표시)
+# -------------------------------------------------
+[cmd_duration]
+min_time = 500
+format = "⏱ [$duration]($style) "
+style = "yellow"
+
+# -------------------------------------------------
+# Prompt character
+# -------------------------------------------------
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

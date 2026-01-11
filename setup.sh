@@ -8,12 +8,22 @@ brew install git git-delta
 cp ./configs/gitconfig ~/.gitconfig
 source ~/.gitconfig
 
-# Install Oh My Zsh
-brew install zsh powerlevel10k zsh-autosuggestions zsh-syntax-highlighting
-cp ./configs/zshrc ~/.zshrc
-cp ./configs/p10k.zsh ~/.p10k.zsh
-cp ./configs/zprofile ~/.zprofile
-source ~/.zprofile
+# Install fish
+brew install fish fisher starship
+command -v fish | sudo tee -a /etc/
+chsh -s "$(command -v fish)"
+# config.fish가 없으면 생성
+mkdir -p ~/.config/fish
+cp ./configs/config.fish ~/.config/fish/config.fish
+
+# fish plugins
+starship init fish | source
+mkdir -p ~/.config
+cp ./configs/starship.toml ~/.config/starship.toml
+starship explain
+
+# path append
+# set -Ux $NAME $VALUE
 
 # Install Utilities
 brew install --cask jordanbaird-ice appcleaner raycast rectangle-pro mos
