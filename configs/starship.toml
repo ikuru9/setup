@@ -1,24 +1,32 @@
 # -------------------------------------------------
-# Starship prompt config (recommended)
+# Starship prompt config (safe + recommended)
 # -------------------------------------------------
 
-# 전체 프롬프트 포맷
+# 큰 레포에서 git status가 느리면 timeout 경고/오류가 날 수 있어서 여유를 둠
+command_timeout = 1000
+scan_timeout = 10
+
+# -------------------------------------------------
+# LEFT prompt
+# -------------------------------------------------
 format = """
 $directory\
 $git_branch\
 $git_status\
-$nodejs\
-$rust\
-$golang\
-$python\
-$cmd_duration\
 $line_break\
 $character
 """
 
-# 프롬프트 반응 속도
-scan_timeout = 10
-command_timeout = 1000
+# -------------------------------------------------
+# RIGHT prompt
+# -------------------------------------------------
+right_format = """
+$nodejs\
+$rust\
+$golang\
+$python\
+$cmd_duration
+"""
 
 # -------------------------------------------------
 # Directory
@@ -48,7 +56,7 @@ renamed = "» "
 deleted = "✘ "
 
 # -------------------------------------------------
-# Node.js (fnm / nvm / asdf 모두 대응)
+# Node.js
 # -------------------------------------------------
 [nodejs]
 symbol = " "
@@ -56,7 +64,7 @@ format = "[$symbol($version )]($style)"
 style = "bold green"
 
 # -------------------------------------------------
-# Other languages (필요 없으면 지워도 됨)
+# Languages
 # -------------------------------------------------
 [python]
 symbol = " "
@@ -71,7 +79,7 @@ symbol = "🦀 "
 style = "red"
 
 # -------------------------------------------------
-# Command duration (느린 명령만 표시)
+# Command duration
 # -------------------------------------------------
 [cmd_duration]
 min_time = 500
