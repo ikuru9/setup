@@ -5,7 +5,7 @@
 
 # Install git and delta
 brew install git git-delta
-cp ./configs/gitconfig ~/.gitconfig
+cp -f ./configs/gitconfig ~/.gitconfig
 source ~/.gitconfig
 
 # Install fish
@@ -14,12 +14,12 @@ command -v fish | sudo tee -a /etc/
 chsh -s "$(command -v fish)"
 # config.fish가 없으면 생성
 mkdir -p ~/.config/fish
-cp ./configs/config.fish ~/.config/fish/config.fish
+cp -f ./configs/config.fish ~/.config/fish/config.fish
 
 # fish plugins
 starship init fish | source
 mkdir -p ~/.config
-cp ./configs/starship.toml ~/.config/starship.toml
+cp -f ./configs/starship.toml ~/.config/starship.toml
 starship explain
 
 # path append
@@ -37,7 +37,10 @@ brew install --cask ghostty
 git clone https://github.com/catppuccin/ghostty.git
 mkdir -p ~/.config/ghostty/themes
 cp ./ghostty/themes ~/.config/ghostty/themes/
-cp ./config/ghostty.conf ~/.config/ghostty/config
+cp -f ./config/ghostty.conf ~/.config/ghostty/config
+
+# Copy zed configs
+cp -f ./config/zedConfig.json ~/.config/zed/settings.json
 
 # Install Office Utilities
 brew install --cask libreoffice libreoffice-language-pack
