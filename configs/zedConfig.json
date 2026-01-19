@@ -1,0 +1,174 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "$schema": "zed://schemas/settings",
+  "preferred_line_length": 120,
+  "agent": {
+    "commit_message_model": {
+      "provider": "google",
+      "model": "gemini-3-flash-preview",
+    },
+  },
+  "auto_install_extensions": {
+    "biome": true,
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "color-highlight": true,
+    "codebook": true,
+    "scss": true,
+    "vue": true,
+  },
+  "search": {
+    "case_sensitive": true,
+  },
+  "minimap": {
+    "show": "auto",
+  },
+  "scrollbar": {
+    "cursors": false,
+    "git_diff": false,
+  },
+  "languages": {
+    "JavaScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "TypeScript": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "TSX": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "JSON": {
+      "formatter": {
+        "language_server": {
+          "name": "biome",
+        },
+      },
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true,
+      },
+    },
+    "CSS": {
+      "language_servers": ["tailwindcss-intellisense-css", "!vscode-css-language-server", "..."],
+    },
+  },
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true,
+      },
+    },
+  },
+  "context_servers": {
+    "mcp-server-context7": {
+      "enabled": true,
+      "settings": {
+        "context7_api_key": "$CONTEXT7_API_KEY",
+      },
+    },
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "errors",
+  },
+  "title_bar": {
+    "show_branch_icon": true,
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false,
+    },
+  },
+  "icon_theme": "Catppuccin Latte",
+  "sticky_scroll": {
+    "enabled": true,
+  },
+  "colorize_brackets": true,
+  "base_keymap": "VSCode",
+  "max_tabs": 10,
+  "use_system_path_prompts": true,
+  "autosave": "on_window_change",
+  "buffer_font_fallbacks": ["FiraCode Nerd Font"],
+  "buffer_font_family": "FiraCode Nerd Font",
+  "linked_edits": true,
+  "ensure_final_newline_on_save": true,
+  "tab_size": 2,
+  "ui_font_size": 16,
+  "buffer_font_size": 16.0,
+  "theme": "Catppuccin Latte",
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/.settings",
+    // above is default from Zed
+    "**/out",
+    "**/dist",
+    "**/.husky",
+    "**/.turbo",
+    "**/.vscode-test",
+    "**/.vscode",
+    "**/.next",
+    "**/.storybook",
+    "**/.tap",
+    "**/.nyc_output",
+    "**/report",
+    "**/node_modules",
+  ],
+  // Move all panel to the right
+  "project_panel": {
+    "button": true,
+    "dock": "right",
+    "git_status": true,
+  },
+  "outline_panel": {
+    "dock": "right",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  // Move some unnecessary panels to the left
+  "notification_panel": {
+    "dock": "right",
+  },
+  "git_panel": {
+    "tree_view": true,
+    "dock": "right",
+  },
+}
