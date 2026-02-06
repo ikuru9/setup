@@ -9,7 +9,7 @@ cp -f ./configs/gitconfig ~/.gitconfig
 source ~/.gitconfig
 
 # Install fish
-brew install fish fisher starship fzf
+brew install fish fisher starship fzf fd eza bat
 command -v fish | sudo tee -a /etc/
 chsh -s "$(command -v fish)"
 # config.fish가 없으면 생성
