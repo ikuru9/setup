@@ -9,7 +9,7 @@ cp -f ./configs/gitconfig ~/.gitconfig
 source ~/.gitconfig
 
 # Install fish
-brew install fish fisher starship
+brew install fish fisher starship fzf
 command -v fish | sudo tee -a /etc/
 chsh -s "$(command -v fish)"
 # config.fish가 없으면 생성
@@ -21,6 +21,7 @@ starship init fish | source
 mkdir -p ~/.config
 cp -f ./configs/starship.toml ~/.config/starship.toml
 starship explain
+fisher install PatrickF1/fzf.fish
 
 # path append
 # set -Ux $NAME $VALUE
