@@ -32,6 +32,10 @@ if type -q fnm
     fnm env --use-on-cd --shell fish | source
 end
 
+# bun
+set --export BUN_INSTALL "$HOME/.bun"
+set --export PATH $BUN_INSTALL/bin $PATH
+
 # Starship prompt
 if type -q starship
     starship init fish | source
