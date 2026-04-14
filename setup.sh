@@ -5,7 +5,7 @@
 
 # Install git and delta
 brew install git git-delta
-cp -f ./configs/gitconfig ~/.gitconfig
+ln -s ./configs/gitconfig ~/.gitconfig
 source ~/.gitconfig
 
 # Install fish
@@ -14,14 +14,20 @@ command -v fish | sudo tee -a /etc/
 chsh -s "$(command -v fish)"
 # config.fish가 없으면 생성
 mkdir -p ~/.config/fish
-cp -f ./configs/config.fish ~/.config/fish/config.fish
+ln -s ./configs/config.fish ~/.config/fish/config.fish
 
 # fish plugins
 starship init fish | source
 mkdir -p ~/.config
-cp -f ./configs/starship.toml ~/.config/starship.toml
+ln -s ./configs/starship.toml ~/.config/starship.toml
 starship explain
 fisher install PatrickF1/fzf.fish
+
+# Copy zed configs
+ln -s ./config/zed.json ~/.config/zed/settings.json
+
+# Copy mise configs
+ln -s ./config/mise.toml ~/.config/mise/config.toml
 
 # path append
 # set -Ux $NAME $VALUE
@@ -30,7 +36,7 @@ fisher install PatrickF1/fzf.fish
 brew install --cask jordanbaird-ice appcleaner raycast rectangle-pro mos
 
 # Install Developer Utilities
-brew install fnm
+brew install mise
 brew install --cask font-fira-code-nerd-font zed visual-studio-code ghostty
 
 # Install Terminal Utility
@@ -40,8 +46,8 @@ mkdir -p ~/.config/ghostty/themes
 cp ./ghostty/themes ~/.config/ghostty/themes/
 cp -f ./config/ghostty.conf ~/.config/ghostty/config
 
-# Copy zed configs
-cp -f ./config/zedConfig.json ~/.config/zed/settings.json
+# Install Node LTS
+mise use --global node@lts
 
 # Install Office Utilities
 brew install --cask libreoffice libreoffice-language-pack
