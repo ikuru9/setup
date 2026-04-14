@@ -1,53 +1,119 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
-# Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+echo "🚀 시스템 설정을 시작합니다..."
 
-# Install git and delta
-brew install git git-delta
-ln -s ./configs/gitconfig ~/.gitconfig
-source ~/.gitconfig
+# 이 스크립트가 있는 디렉터리를 기준 경로로 사용
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_DIR="$SCRIPT_DIR/configs"
 
-# Install fish
-brew install fish fisher starship fzf fd eza bat
-command -v fish | sudo tee -a /etc/
-chsh -s "$(command -v fish)"
-# config.fish가 없으면 생성
-mkdir -p ~/.config/fish
-ln -s ./configs/config.fish ~/.config/fish/config.fish
+require_file() {
+    local file="$1"
+    if [[ ! -e "$file" ]]; then
+        echo "❌ 필요한 파일이 없습니다: $file" >&2
+        exit 1
+    fi
+}
 
-# fish plugins
-starship init fish | source
-mkdir -p ~/.config
-ln -s ./configs/starship.toml ~/.config/starship.toml
-starship explain
-fisher install PatrickF1/fzf.fish
+link_file() {
+    local src="$1"
+    local dst="$2"
 
-# Copy zed configs
-ln -s ./config/zed.json ~/.config/zed/settings.json
+    require_file "$src"
+    mkdir -p "$(dirname "$dst")"
+    ln -sfn "$src" "$dst"
+    echo "🔗 Linked: $dst -> $src"
+}
 
-# Copy mise configs
-ln -s ./config/mise.toml ~/.config/mise/config.toml
+setup_brew_env() {
+    if [[ -x /opt/homebrew/bin/brew ]]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    elif [[ -x /usr/local/bin/brew ]]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    else
+        echo "❌ brew 실행 파일을 찾을 수 없습니다." >&2
+        exit 1
+    fi
+}
 
-# path append
-# set -Ux $NAME $VALUE
+# 1. Homebrew 설치
+if ! command -v brew >/dev/null 2>&1; then
+    echo "📦 Installing Homebrew..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
-# Install Utilities
-brew install --cask jordanbaird-ice appcleaner raycast rectangle-pro mos
+setup_brew_env
 
-# Install Developer Utilities
-brew install mise
-brew install --cask font-fira-code-nerd-font zed visual-studio-code ghostty
+# 2. 기본 formula 설치
+echo "📦 Installing CLI tools..."
+brew update
+brew install git git-delta fish starship fzf fd eza bat mise
 
-# Install Terminal Utility
-brew install --cask ghostty
-git clone https://github.com/catppuccin/ghostty.git
-mkdir -p ~/.config/ghostty/themes
-cp ./ghostty/themes ~/.config/ghostty/themes/
-cp -f ./config/ghostty.conf ~/.config/ghostty/config
+# 3. Git 설정
+echo "⚙️ Setting up Git..."
+link_file "$CONFIG_DIR/gitconfig" "$HOME/.gitconfig"
 
-# Install Node LTS
+# 4. Fish 설정
+echo "🐟 Setting up Fish..."
+FISH_PATH="$(command -v fish)"
+
+if [[ -z "$FISH_PATH" ]]; then
+    echo "❌ fish 실행 파일을 찾을 수 없습니다." >&2
+    exit 1
+fi
+
+if ! grep -qx "$FISH_PATH" /etc/shells; then
+    echo "$FISH_PATH" | sudo tee -a /etc/shells >/dev/null
+fi
+
+if [[ "${SHELL:-}" != "$FISH_PATH" ]]; then
+    chsh -s "$FISH_PATH"
+fi
+
+mkdir -p "$HOME/.config/fish/functions"
+link_file "$CONFIG_DIR/config.fish" "$HOME/.config/fish/config.fish"
+
+# 5. Fisher 설치
+echo "🎣 Setting up Fisher..."
+curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
+    -o "$HOME/.config/fish/functions/fisher.fish"
+
+fish -c "fisher install jorgebucaran/fisher PatrickF1/fzf.fish"
+
+# 6. Starship 설정
+echo "✨ Setting up Starship..."
+link_file "$CONFIG_DIR/starship.toml" "$HOME/.config/starship.toml"
+
+# 7. Zed / Mise 설정
+echo "🛠️ Setting up Zed and Mise..."
+mkdir -p "$HOME/.config/zed" "$HOME/.config/mise"
+link_file "$CONFIG_DIR/zed.json" "$HOME/.config/zed/settings.json"
+link_file "$CONFIG_DIR/mise.toml" "$HOME/.config/mise/config.toml"
+
+# 8. GUI 앱 설치
+echo "🖥️ Installing GUI apps..."
+brew install --cask \
+    jordanbaird-ice \
+    appcleaner \
+    raycast \
+    rectangle-pro \
+    mos \
+    zed \
+    ghostty \
+    libreoffice \
+    libreoffice-language-pack \
+    font-fira-code-nerd-font
+
+# 9. Ghostty 설정
+# Ghostty는 내장 테마를 지원하므로 별도 테마 repo 복제 없이 config만 연결
+echo "👻 Setting up Ghostty..."
+mkdir -p "$HOME/.config/ghostty"
+link_file "$CONFIG_DIR/ghostty.conf" "$HOME/.config/ghostty/config"
+
+# 10. Node.js 설치
+echo "🟢 Installing Node.js (LTS) with mise..."
+eval "$(mise activate bash)"
 mise use --global node@lts
 
-# Install Office Utilities
-brew install --cask libreoffice libreoffice-language-pack
+echo "✅ 모든 설정이 완료되었습니다."
+echo "ℹ️ 로그인 셸 변경이 반영되지 않았다면 터미널을 다시 시작해 주세요."

@@ -1,59 +1,71 @@
-[column]  
-ui = auto  
-[branch]  
-sort = -committerdate  
-[tag]  
-sort = version:refname  
-[init]  
-defaultBranch = main  
-[diff]  
-algorithm = histogram  
-colorMoved = plain  
-mnemonicPrefix = true  
-renames = true  
-[push]  
-default = simple  
-autoSetupRemote = true  
-followTags = true  
-[fetch]  
-prune = true  
-pruneTags = true  
-all = true  
+[column]
+    ui = auto
+[branch]
+    # 최신 커밋 순으로 브랜치 정렬 (매우 유용)
+    sort = -committerdate
+[tag]
+    sort = version:refname
+[init]
+    defaultBranch = main
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+[push]
+    default = simple
+    autoSetupRemote = true
+    followTags = true
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
 
-# 쓰지 않을 이유가?  
+[help]
+    # 오타 시 바로 실행하지 않고 프롬프트로 확인 (안전함)
+    autocorrect = prompt
+[commit]
+    # 커밋 메시지 작성 시 변경 사항(diff)을 아래에 보여줌
+    verbose = true
+[rerere]
+    # 이미 해결한 충돌을 기억했다가 자동으로 해결
+    enabled = true
+    autoupdate = true
 
-[help]  
-autocorrect = prompt  
-[commit]  
-verbose = true  
-[rerere]  
-enabled = true  
-autoupdate = true  
 [core]
-editor = code --wait
-excludesfile = ~/.gitignore  
-[rebase]  
-autoSquash = true  
-autoStash = true  
-updateRefs = true  
+    editor = code --wait
+    excludesfile = ~/.gitignore
+    # 성능 향상을 위한 캐시 설정
+    fsmonitor = true
+    untrackedCache = true
+    # Pager를 delta로 지정
+    pager = delta
 
-# 개인 취향에 따른 설정 (필요 시 주석 해제하고 사용)  
-[core]  
-pager = delta
-fsmonitor = true  
-untrackedCache = true 
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
 
-[delta]  
-line-numbers = true  
-side-by-side = true  
-navigate = true  
-diff-so-fancy = true  
-hyperlinks = true  
- 
-[merge]  
-# (Git 버전이 2.3 미만인 경우 ‘diff3’ 사용)  
-conflictstyle = zdiff3
+[merge]
+    # conflictstyle = diff3보다 더 개선된 zdiff3 사용
+    conflictstyle = zdiff3
 
 [apply]
-# Remove trailling whitespaces
-whitespace = fix 
+    whitespace = fix
+
+[delta]
+    line-numbers = true
+    side-by-side = true
+    navigate = true
+    # diff-so-fancy 스타일 적용
+    diff-so-fancy = true
+    hyperlinks = true
+
+[interactive]
+    # 대화형 모드(add -p 등)에서도 delta 적용
+    diffFilter = delta --color-only
+
+[credential]
+    # OS별 자격 증명 도우미 (매번 비번 입력 방지)
+    # Windows: manager / Mac: osxkeychain
+    helper = store 

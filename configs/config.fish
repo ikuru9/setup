@@ -23,18 +23,14 @@ if test -d $HOME/.local/bin
     fish_add_path $HOME/.local/bin
 end
 
-# ---------------------------------------------------------
-# fnm (Fast Node Manager)
-# ---------------------------------------------------------
-# - 디렉토리 이동 시 (.nvmrc / .node-version) 자동 적용
-# - fish 전용 문법으로 환경 설정 로드
-if type -q fnm
-    fnm env --use-on-cd --shell fish | source
+# mise 활성화 (가장 하단 권장)
+if type -q mise
+    mise activate fish | source
 end
-
-# bun
-set --export BUN_INSTALL "$HOME/.bun"
-set --export PATH $BUN_INSTALL/bin $PATH
+# mise completion 활성화
+if type -q mise
+    mise completion fish | source
+end
 
 # Starship prompt
 if type -q starship
