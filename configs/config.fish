@@ -1,5 +1,5 @@
 # ---------------------------------------------------------
-# Interactive-only guard (스크립트/비인터랙티브에서 불필요한 실행 방지)
+# Interactive-only guard
 # ---------------------------------------------------------
 if not status is-interactive
     exit
@@ -8,39 +8,42 @@ end
 # ---------------------------------------------------------
 # Homebrew
 # ---------------------------------------------------------
-# Apple Silicon 기본 경로
 if test -x /opt/homebrew/bin/brew
     /opt/homebrew/bin/brew shellenv | source
-# Intel Mac 기본 경로
 else if test -x /usr/local/bin/brew
     /usr/local/bin/brew shellenv | source
 end
 
 # ---------------------------------------------------------
-# PATH (중복 방지: fish_add_path 권장)
+# PATH
 # ---------------------------------------------------------
 if test -d $HOME/.local/bin
     fish_add_path $HOME/.local/bin
 end
 
-# mise 활성화 (가장 하단 권장)
+# ---------------------------------------------------------
+# mise (runtime manager)
+# ---------------------------------------------------------
 if type -q mise
     mise activate fish | source
-end
-# mise completion 활성화
-if type -q mise
     mise completion fish | source
 end
 
+# ---------------------------------------------------------
 # Starship prompt
+# ---------------------------------------------------------
 if type -q starship
     starship init fish | source
 end
 
-# fzf의 기본 외형 설정 (테두리 추가 및 레이아웃 역순)
+# ---------------------------------------------------------
+# fzf (UI / preview)
+# ---------------------------------------------------------
 set -gx FZF_DEFAULT_OPTS "--height 40% --layout=reverse --border --info=inline"
 
-# 만약 bat(문법 강조 도구)이 설치되어 있다면 미리보기 기능 활성화
-# brew install bat 명령어로 설치 가능합니다.
-set -gx fzf_preview_dir_cmd eza --all --color=always # eza 사용 시
-set -gx fzf_fd_opts --hidden --exclude .git
+# eza가 있을 때만 preview 사용
+if type -q eza
+    set -gx fzf_preview_dir_cmd "eza --all --color=always"
+end
+
+set -gx fzf_fd_opts "--hidden --exclude .git"

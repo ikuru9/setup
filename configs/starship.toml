@@ -1,94 +1,111 @@
 # -------------------------------------------------
-# Starship prompt config (safe + recommended)
+# Starship prompt config
 # -------------------------------------------------
 
-# 큰 레포에서 git status가 느리면 timeout 경고/오류가 날 수 있어서 여유를 둠
-command_timeout = 1000
-scan_timeout = 10
+# 외부 명령(git 등) 실행 최대 대기 시간 (ms)
+# 큰 레포에서 timeout 방지용
+command_timeout = 3000
+
+# 파일 시스템 스캔 시간 제한 (ms)
+# 너무 낮으면 일부 정보가 안 뜰 수 있음
+scan_timeout = 30
 
 # -------------------------------------------------
 # LEFT prompt
 # -------------------------------------------------
+# 왼쪽 프롬프트 구성
+# \ 는 줄 이어붙이기 (줄바꿈 방지)
 format = """
-$directory\
-$git_branch\
-$git_status\
-$line_break\
-$character
+$directory\        # 현재 디렉토리 (경로)
+$git_branch\       # 현재 Git 브랜치
+$git_status\       # Git 변경 상태
+$line_break\       # 줄바꿈
+$character         # 입력 프롬프트 기호
 """
 
 # -------------------------------------------------
 # RIGHT prompt
 # -------------------------------------------------
+# 오른쪽 정렬 정보 (상태 정보 위주)
 right_format = """
-$nodejs\
-$rust\
-$golang\
-$python\
-$cmd_duration
+$nodejs\           # Node.js 버전
+$rust\             # Rust 버전
+$golang\           # Go 버전
+$python\           # Python 버전
+$cmd_duration      # 마지막 명령 실행 시간
 """
 
 # -------------------------------------------------
 # Directory
 # -------------------------------------------------
 [directory]
-style = "bold cyan"
-truncation_length = 3
-truncate_to_repo = true
+style = "bold cyan"        # 경로 색상 (굵은 시안)
+truncation_length = 3      # 최대 3단계까지만 표시
+truncate_to_repo = true    # Git repo 기준으로 경로 축약
+read_only = " 󰌾"           # 쓰기 권한 없을 때 표시 아이콘
+read_only_style = "red"    # 읽기 전용 표시 색상
 
 # -------------------------------------------------
 # Git
 # -------------------------------------------------
 [git_branch]
-symbol = " "
-style = "bold purple"
+symbol = " "              # 브랜치 아이콘
+style = "bold purple"      # 브랜치 색상
 
 [git_status]
-style = "yellow"
+style = "yellow"           # 전체 상태 색상
 format = "([$all_status$ahead_behind]($style)) "
-conflicted = "⚠ "
-ahead = "⇡${count} "
-behind = "⇣${count} "
-modified = "✎ "
-staged = "+ "
-untracked = "? "
-renamed = "» "
-deleted = "✘ "
+# ↑ 모든 상태 + ahead/behind 정보를 하나로 묶어서 출력
+
+conflicted = "⚠ "          # 충돌 발생
+ahead = "⇡${count} "       # 원격보다 앞선 커밋 수
+behind = "⇣${count} "      # 원격보다 뒤처진 커밋 수
+modified = "✎ "            # 수정된 파일
+staged = "+ "              # 스테이징된 파일
+untracked = "? "           # 추적 안 된 파일
+renamed = "» "             # 이름 변경
+deleted = "✘ "             # 삭제됨
 
 # -------------------------------------------------
 # Node.js
 # -------------------------------------------------
 [nodejs]
-symbol = " "
-format = "[$symbol($version )]($style)"
-style = "bold green"
+symbol = " "             # Node 아이콘
+format = "[$symbol($version )]($style)" 
+# ↑ 아이콘 + 버전 표시
+style = "bold green"       # 색상
 
 # -------------------------------------------------
 # Languages
 # -------------------------------------------------
 [python]
-symbol = " "
+symbol = " "             # Python 아이콘
 style = "blue"
+format = "[$symbol($version )]($style)" 
+# ↑ 가상환경/버전 확인용
 
 [golang]
-symbol = " "
+symbol = " "             # Go 아이콘
 style = "cyan"
+format = "[$symbol($version )]($style)"
 
 [rust]
-symbol = "🦀 "
+symbol = "🦀 "             # Rust 아이콘
 style = "red"
+format = "[$symbol($version )]($style)"
 
 # -------------------------------------------------
 # Command duration
 # -------------------------------------------------
 [cmd_duration]
-min_time = 500
+min_time = 500            # 0.5초 이상 실행 시만 표시
 format = "⏱ [$duration]($style) "
+# ↑ 실행 시간 표시
 style = "yellow"
 
 # -------------------------------------------------
 # Prompt character
 # -------------------------------------------------
 [character]
-success_symbol = "[❯](bold green)"
-error_symbol = "[❯](bold red)"
+success_symbol = "[❯](bold green)"  # 성공 시 프롬프트
+error_symbol = "[❯](bold red)"      # 실패 시 프롬프트

@@ -3,7 +3,5 @@
 activate_aggressive = true
 # .node-version 파일을 읽기
 legacy_version_file = true
-# 쉘 프롬프트가 뜰 때마다 버전을 체크하여 정확도를 높입니다.
-activate_aggressive = true 
 # 성능 및 가독성
 jobs = 3
