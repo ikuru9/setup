@@ -3,12 +3,104 @@
 
   "preferred_line_length": 120,
   "format_on_save": "on",
+  "remove_trailing_whitespace_on_save": true,
+  "ensure_final_newline_on_save": true,
+
+  "buffer_font_family": "FiraCode Nerd Font",
+  "buffer_font_fallbacks": ["FiraCode Nerd Font"],
+  "buffer_font_size": 16.0,
+  "buffer_line_height": "comfortable",
+  "ui_font_size": 16,
+
+  "base_keymap": "VSCode",
+  "tab_size": 2,
+  "max_tabs": 10,
+  "linked_edits": true,
+  "colorize_brackets": true,
+  "show_whitespaces": "selection",
+  "show_wrap_guides": true,
+  "scroll_beyond_last_line": "off",
+
+  "autosave": "on_window_change",
+  "restore_on_startup": "last_session",
+
+  "search": {
+    "case_sensitive": true
+  },
+
+  "minimap": {
+    "show": "auto"
+  },
+
+  "scrollbar": {
+    "cursors": false,
+    "git_diff": false
+  },
+
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": true,
+    "show_tab_bar_buttons": true
+  },
+
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "errors"
+  },
+
+  "toolbar": {
+    "breadcrumbs": true,
+    "quick_actions": true,
+    "selections_menu": true,
+    "agent_review": true,
+    "code_actions": false
+  },
+
+  "title_bar": {
+    "show_branch_icon": true
+  },
+
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+
+  "project_panel": {
+    "button": true,
+    "dock": "right",
+    "git_status": true,
+    "indent_guides": {
+      "show": "always"
+    }
+  },
+
+  "outline_panel": {
+    "dock": "right"
+  },
+
+  "collaboration_panel": {
+    "dock": "left"
+  },
+
+  "git_panel": {
+    "tree_view": true,
+    "dock": "right"
+  },
+
+  "theme": "Catppuccin Latte",
+  "icon_theme": "Catppuccin Latte",
+
+  "sticky_scroll": {
+    "enabled": true
+  },
 
   "agent": {
     "commit_message_model": {
       "provider": "google",
-      "model": "gemini-3-flash-preview",
-    },
+      "model": "gemini-3-flash-preview"
+    }
   },
 
   "auto_install_extensions": {
@@ -18,146 +110,120 @@
     "color-highlight": true,
     "codebook": true,
     "scss": true,
-    "vue": true,
-  },
-
-  "search": {
-    "case_sensitive": true,
-  },
-
-  "minimap": {
-    "show": "auto",
-  },
-
-  "scrollbar": {
-    "cursors": false,
-    "git_diff": false,
+    "vue": true
   },
 
   "languages": {
     "JavaScript": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
+      },
+      "prettier": {
+        "allowed": false
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "TypeScript": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
       },
+      "prettier": {
+        "allowed": false
+      },
+      "semantic_tokens": "combined",
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "TSX": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      },
+      "semantic_tokens": "combined",
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "Vue.js": {
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "prettier": {
+        "allowed": false
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+        "source.organizeImports.biome": true
+      }
     },
     "JSON": {
       "formatter": {
         "language_server": {
-          "name": "biome",
-        },
+          "name": "biome"
+        }
       },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
+      "prettier": {
+        "allowed": false
+      }
     },
     "CSS": {
-      "language_servers": ["tailwindcss-intellisense-css"],
+      "formatter": {
+        "language_server": {
+          "name": "biome"
+        }
+      },
+      "prettier": {
+        "allowed": false
+      },
+      "language_servers": ["tailwindcss-intellisense-css"]
     },
+    "Markdown": {
+      "remove_trailing_whitespace_on_save": false
+    }
   },
 
   "lsp": {
     "biome": {
       "settings": {
-        "require_config_file": true,
-      },
-    },
+        "require_config_file": true
+      }
+    }
   },
 
   "context_servers": {
     "mcp-server-context7": {
       "enabled": true,
       "settings": {
-        "context7_api_key": "$CONTEXT7_API_KEY",
-      },
-    },
+        "context7_api_key": "$CONTEXT7_API_KEY"
+      }
+    }
   },
 
-  "tabs": {
-    "file_icons": true,
-    "git_status": true,
-    "show_diagnostics": "errors",
+  "terminal": {
+    "font_family": "FiraCode Nerd Font Mono",
+    "blinking": "off",
+    "line_height": "standard"
   },
 
-  "title_bar": {
-    "show_branch_icon": true,
-  },
-
-  "git": {
-    "inline_blame": {
-      "enabled": false,
-    },
-  },
-
-  "project_panel": {
-    "button": true,
-    "dock": "right",
-    "git_status": true,
-  },
-
-  "outline_panel": {
-    "dock": "right",
-  },
-
-  "collaboration_panel": {
-    "dock": "left",
-  },
-
-  "git_panel": {
-    "tree_view": true,
-    "dock": "right",
-  },
-
-  "icon_theme": "Catppuccin Latte",
-  "theme": "Catppuccin Latte",
-
-  "sticky_scroll": {
-    "enabled": true,
-  },
-
-  "colorize_brackets": true,
-  "base_keymap": "VSCode",
-  "max_tabs": 10,
   "use_system_path_prompts": true,
-  "autosave": "on_window_change",
 
-  "buffer_font_fallbacks": ["FiraCode Nerd Font"],
-  "buffer_font_family": "FiraCode Nerd Font",
-  "buffer_font_size": 16.0,
-  "ui_font_size": 16,
-
-  "linked_edits": true,
-  "ensure_final_newline_on_save": true,
-  "tab_size": 2,
-
+  "file_scan_inclusions": [".env*"],
   "file_scan_exclusions": [
     "**/.git",
     "**/.svn",
@@ -185,6 +251,6 @@
     "**/.cache",
     "**/.parcel-cache",
     "**/.vite",
-    "**/.eslintcache",
-  ],
+    "**/.eslintcache"
+  ]
 }
