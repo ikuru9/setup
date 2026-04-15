@@ -14,8 +14,7 @@ scan_timeout = 30
 # LEFT prompt
 # -------------------------------------------------
 format = """
-$directory
-$line_break
+$directory$git_branch$git_status$line_break\
 $character
 """
 
@@ -40,7 +39,7 @@ read_only_style = "red"    # 읽기 전용 표시 색상
 # Git
 # -------------------------------------------------
 [git_branch]
-symbol = " "              # 브랜치 아이콘
+symbol = " "              # 브랜치 아이콘
 style = "bold purple"      # 브랜치 색상
 format = "[$symbol$branch]($style) "
 
@@ -59,7 +58,7 @@ renamed = "» "             # 이름 변경
 deleted = "✘ "             # 삭제됨
 
 # -------------------------------------------------
-# Node.js
+# Languages
 # -------------------------------------------------
 [nodejs]
 symbol = " "             # Node 아이콘
@@ -67,9 +66,6 @@ format = "[$symbol($version )]($style)"
 # ↑ 아이콘 + 버전 표시
 style = "bold green"       # 색상
 
-# -------------------------------------------------
-# Languages
-# -------------------------------------------------
 [python]
 symbol = " "             # Python 아이콘
 style = "blue"
@@ -85,6 +81,10 @@ format = "[$symbol($version )]($style)"
 symbol = "🦀 "             # Rust 아이콘
 style = "red"
 format = "[$symbol($version )]($style)"
+
+[docker_context]
+symbol = "🐳 "
+style = "blue"
 
 # -------------------------------------------------
 # Command duration
