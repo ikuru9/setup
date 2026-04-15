@@ -13,26 +13,23 @@ scan_timeout = 30
 # -------------------------------------------------
 # LEFT prompt
 # -------------------------------------------------
-# 왼쪽 프롬프트 구성
-# \ 는 줄 이어붙이기 (줄바꿈 방지)
 format = """
-$directory\        # 현재 디렉토리 (경로)
-$git_branch\       # 현재 Git 브랜치
-$git_status\       # Git 변경 상태
-$line_break\       # 줄바꿈
-$character         # 입력 프롬프트 기호
+$directory
+$git_branch
+$git_status
+$line_break
+$character
 """
 
 # -------------------------------------------------
 # RIGHT prompt
 # -------------------------------------------------
-# 오른쪽 정렬 정보 (상태 정보 위주)
 right_format = """
-$nodejs\           # Node.js 버전
-$rust\             # Rust 버전
-$golang\           # Go 버전
-$python\           # Python 버전
-$cmd_duration      # 마지막 명령 실행 시간
+$nodejs
+$rust
+$golang
+$python
+$cmd_duration
 """
 
 # -------------------------------------------------
@@ -71,7 +68,7 @@ deleted = "✘ "             # 삭제됨
 # -------------------------------------------------
 [nodejs]
 symbol = " "             # Node 아이콘
-format = "[$symbol($version )]($style)" 
+format = "[$symbol($version )]($style)"
 # ↑ 아이콘 + 버전 표시
 style = "bold green"       # 색상
 
@@ -81,7 +78,7 @@ style = "bold green"       # 색상
 [python]
 symbol = " "             # Python 아이콘
 style = "blue"
-format = "[$symbol($version )]($style)" 
+format = "[$symbol($version )]($style)"
 # ↑ 가상환경/버전 확인용
 
 [golang]
