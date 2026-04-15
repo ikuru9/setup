@@ -15,8 +15,6 @@ scan_timeout = 30
 # -------------------------------------------------
 format = """
 $directory
-$git_branch
-$git_status
 $line_break
 $character
 """
@@ -25,10 +23,6 @@ $character
 # RIGHT prompt
 # -------------------------------------------------
 right_format = """
-$nodejs
-$rust
-$golang
-$python
 $cmd_duration
 """
 
@@ -48,6 +42,7 @@ read_only_style = "red"    # 읽기 전용 표시 색상
 [git_branch]
 symbol = " "              # 브랜치 아이콘
 style = "bold purple"      # 브랜치 색상
+format = "[$symbol$branch]($style) "
 
 [git_status]
 style = "yellow"           # 전체 상태 색상
