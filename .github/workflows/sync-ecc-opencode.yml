@@ -44,6 +44,19 @@ jobs:
               s|anthropic/claude-haiku-4-5|openai/gpt-5.4-mini|g;
             ' {} +
 
+      - name: Debug git status
+        run: |
+          echo "===== pwd ====="
+          pwd
+          echo "===== ls ====="
+          ls -al
+          echo "===== opencode tree ====="
+          find ./opencode -maxdepth 3 | sort || true
+          echo "===== git status ====="
+          git status --short
+          echo "===== git diff ====="
+          git diff -- opencode || true
+
       - name: Detect changes
         id: changes
         run: |
