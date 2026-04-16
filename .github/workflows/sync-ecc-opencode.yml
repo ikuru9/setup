@@ -31,55 +31,45 @@ jobs:
         run: |
           rm -rf ./opencode
           mkdir -p ./opencode
-      
+
           find /tmp/ecc/.opencode -mindepth 1 -maxdepth 1 -type d -exec cp -a {} ./opencode/ \;
-          [ -f /tmp/ecc/.opencode/opencode.json ] && cp -a /tmp/ecc/.opencode/opencode.json ./opencode/
+          if [ -f /tmp/ecc/.opencode/opencode.json ]; then
+            cp -a /tmp/ecc/.opencode/opencode.json ./opencode/
+          fi
 
       - name: Replace model names
         run: |
-          find ./opencode -type f \
-            -exec perl -0pi -e '
-              s|anthropic/claude-opus-4-5|openai/gpt-5.4|g;
-              s|anthropic/claude-sonnet-4-5|openai/gpt-5.4|g;
-              s|anthropic/claude-haiku-4-5|openai/gpt-5.4-mini|g;
-            ' {} +
+          find ./opencode -type f -exec perl -0pi -e '
+            s|anthropic/claude-opus-4-5|openai/gpt-5.4|g;
+            s|anthropic/claude-sonnet-4-5|openai/gpt-5.4|g;
+            s|anthropic/claude-haiku-4-5|openai/gpt-5.4-mini|g;
+          ' {} +
 
-      - name: Debug git status
+      - name: Stage opencode changes
         run: |
-          echo "===== pwd ====="
-          pwd
-          echo "===== ls ====="
-          ls -al
-          echo "===== opencode tree ====="
-          find ./opencode -maxdepth 3 | sort || true
+          git add -A opencode
+
+      - name: Debug status
+        run: |
           echo "===== git status ====="
           git status --short
-          echo "===== git diff ====="
-          git diff -- opencode || true
+          echo "===== staged diff summary ====="
+          git diff --cached --stat -- opencode || true
 
-      - name: Detect changes
+      - name: Detect staged changes
         id: changes
         run: |
-          git status --short
-          if git diff --quiet -- opencode && git diff --cached --quiet -- opencode; then
+          if git diff --cached --quiet -- opencode; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-          
-      - name: Debug synced files
-        run: |
-          echo "===== opencode tree ====="
-          find ./opencode -maxdepth 3 | sort
-          echo "===== git status ====="
-          git status --short
 
       - name: Commit and push if changed
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      
-          git add opencode
+
           git commit -m "chore: sync opencode from everything-claude-code"
           git push origin HEAD:main
