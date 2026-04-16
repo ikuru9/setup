@@ -31,14 +31,9 @@ jobs:
         run: |
           rm -rf ./opencode
           mkdir -p ./opencode
-
-          rsync -av --delete \
-            --exclude ".git" \
-            --exclude "node_modules" \
-            --include "*/" \
-            --include "opencode.json" \
-            --exclude "*" \
-            /tmp/ecc/.opencode/ ./opencode/
+      
+          find /tmp/ecc/.opencode -mindepth 1 -maxdepth 1 -type d -exec cp -a {} ./opencode/ \;
+          [ -f /tmp/ecc/.opencode/opencode.json ] && cp -a /tmp/ecc/.opencode/opencode.json ./opencode/
 
       - name: Replace model names
         run: |
@@ -52,11 +47,19 @@ jobs:
       - name: Detect changes
         id: changes
         run: |
-          if git diff --quiet -- opencode; then
+          git status --short
+          if git diff --quiet -- opencode && git diff --cached --quiet -- opencode; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+          
+      - name: Debug synced files
+        run: |
+          echo "===== opencode tree ====="
+          find ./opencode -maxdepth 3 | sort
+          echo "===== git status ====="
+          git status --short
 
       - name: Commit and push if changed
         if: steps.changes.outputs.changed == 'true'
