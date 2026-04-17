@@ -46,15 +46,7 @@ const lintCheckTool: ToolDefinition = tool({
 export default lintCheckTool
 
 function detectLinter(cwd: string): Linter {
-  const biomeConfigs = [
-    "biome.json",
-    "biome.jsonc",
-    "biome.config.js",
-    "biome.config.mjs",
-    "biome.config.cjs",
-    "biome.config.ts",
-  ]
-  if (biomeConfigs.some((name) => fs.existsSync(path.join(cwd, name)))) {
+  if (fs.existsSync(path.join(cwd, "biome.json")) || fs.existsSync(path.join(cwd, "biome.jsonc"))) {
     return "biome"
   }
 
