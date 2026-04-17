@@ -1,6 +1,5 @@
 {
   "$schema": "zed://schemas/settings",
-
   "preferred_line_length": 120,
   "format_on_save": "on",
   "remove_trailing_whitespace_on_save": true,
@@ -25,28 +24,28 @@
   "restore_on_startup": "last_session",
 
   "search": {
-    "case_sensitive": true
+    "case_sensitive": true,
   },
 
   "minimap": {
-    "show": "auto"
+    "show": "auto",
   },
 
   "scrollbar": {
     "cursors": false,
-    "git_diff": false
+    "git_diff": false,
   },
 
   "tab_bar": {
     "show": true,
     "show_nav_history_buttons": true,
-    "show_tab_bar_buttons": true
+    "show_tab_bar_buttons": true,
   },
 
   "tabs": {
     "file_icons": true,
     "git_status": true,
-    "show_diagnostics": "errors"
+    "show_diagnostics": "errors",
   },
 
   "toolbar": {
@@ -54,53 +53,40 @@
     "quick_actions": true,
     "selections_menu": true,
     "agent_review": true,
-    "code_actions": false
+    "code_actions": false,
   },
 
   "title_bar": {
-    "show_branch_icon": true
+    "show_branch_icon": true,
   },
 
   "git": {
     "inline_blame": {
-      "enabled": false
-    }
+      "enabled": false,
+    },
   },
 
   "project_panel": {
-    "button": true,
-    "dock": "right",
-    "git_status": true,
     "indent_guides": {
-      "show": "always"
-    }
+      "show": "always",
+    },
   },
-
-  "outline_panel": {
-    "dock": "right"
-  },
-
-  "collaboration_panel": {
-    "dock": "left"
-  },
-
   "git_panel": {
     "tree_view": true,
-    "dock": "right"
   },
 
   "theme": "Catppuccin Latte",
   "icon_theme": "Catppuccin Latte",
 
   "sticky_scroll": {
-    "enabled": true
+    "enabled": true,
   },
 
   "agent": {
     "commit_message_model": {
       "provider": "google",
-      "model": "gemini-3-flash-preview"
-    }
+      "model": "gemini-3-flash-preview",
+    },
   },
 
   "auto_install_extensions": {
@@ -110,115 +96,115 @@
     "color-highlight": true,
     "codebook": true,
     "scss": true,
-    "vue": true
+    "vue": true,
   },
 
   "languages": {
     "JavaScript": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+        "source.organizeImports.biome": true,
+      },
     },
     "TypeScript": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "semantic_tokens": "combined",
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+        "source.organizeImports.biome": true,
+      },
     },
     "TSX": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "semantic_tokens": "combined",
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+        "source.organizeImports.biome": true,
+      },
     },
     "Vue.js": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
       "code_actions_on_format": {
         "source.fixAll.biome": true,
-        "source.organizeImports.biome": true
-      }
+        "source.organizeImports.biome": true,
+      },
     },
     "JSON": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
-      }
+        "allowed": false,
+      },
     },
     "CSS": {
       "formatter": {
         "language_server": {
-          "name": "biome"
-        }
+          "name": "biome",
+        },
       },
       "prettier": {
-        "allowed": false
+        "allowed": false,
       },
-      "language_servers": ["tailwindcss-intellisense-css"]
+      "language_servers": ["tailwindcss-intellisense-css"],
     },
     "Markdown": {
-      "remove_trailing_whitespace_on_save": false
-    }
+      "remove_trailing_whitespace_on_save": false,
+    },
   },
 
   "lsp": {
     "biome": {
       "settings": {
-        "require_config_file": true
-      }
-    }
+        "require_config_file": true,
+      },
+    },
   },
 
   "context_servers": {
     "mcp-server-context7": {
       "enabled": true,
       "settings": {
-        "context7_api_key": "$CONTEXT7_API_KEY"
-      }
-    }
+        "context7_api_key": "$CONTEXT7_API_KEY",
+      },
+    },
   },
 
   "terminal": {
     "font_family": "FiraCode Nerd Font Mono",
     "blinking": "off",
-    "line_height": "standard"
+    "line_height": "standard",
   },
 
   "use_system_path_prompts": true,
@@ -251,6 +237,6 @@
     "**/.cache",
     "**/.parcel-cache",
     "**/.vite",
-    "**/.eslintcache"
-  ]
+    "**/.eslintcache",
+  ],
 }
