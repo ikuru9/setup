@@ -41,11 +41,41 @@ jobs:
             find ./opencode/commands -type f -exec sh -c '
               for file do
                 first_line=$(sed -n "1p" "$file")
-                case "$first_line" in
-                  "python3 "*) rm -f "$file" ;;
-                esac
+                if printf "%s\n" "$first_line" | grep -q "^python3 "; then
+                  rm -f "$file"
+                  continue
+                fi
+
+                if grep -q "~/.claude" "$file"; then
+                  rm -f "$file"
+                fi
               done
             ' sh {} +
+          fi
+
+          if [ -f ./opencode/opencode.json ]; then
+            if [ -d ./opencode/commands ]; then
+              existing_refs=$(find ./opencode/commands -type f -printf 'commands/%f\n' | jq -R . | jq -s .)
+            else
+              existing_refs='[]'
+            fi
+
+            jq --argjson existing_refs "$existing_refs" '
+              if .command then
+                .command |= with_entries(
+                  (.value.template // "") as $template
+                  | if ($template | test("^\\{file:commands/[^}]+\\}")) then
+                      ($template | capture("^\\{file:(?<ref>commands/[^}]+)\\}").ref) as $ref
+                      | select($existing_refs | index($ref))
+                    else
+                      .
+                    end
+                )
+              else
+                .
+              end
+            ' ./opencode/opencode.json >/tmp/opencode.json
+            mv /tmp/opencode.json ./opencode/opencode.json
           fi
 
       - name: Replace model names
