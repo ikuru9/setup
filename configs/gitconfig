@@ -33,7 +33,7 @@
     autoupdate = true
 
 [core]
-    editor = code --wait
+    editor = zed --wait
     excludesfile = ~/.gitignore
     # 성능 향상을 위한 캐시 설정
     fsmonitor = true
@@ -68,4 +68,4 @@
 [credential]
     # OS별 자격 증명 도우미 (매번 비번 입력 방지)
     # Windows: manager / Mac: osxkeychain
-    helper = store 
+    helper = store

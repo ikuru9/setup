@@ -5,3 +5,7 @@ activate_aggressive = true
 legacy_version_file = true
 # 성능 및 가독성
 jobs = 3
+
+[tools]
+bun = "latest"
+node = "lts"
