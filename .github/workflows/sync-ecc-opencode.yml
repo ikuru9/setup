@@ -37,12 +37,24 @@ jobs:
             cp -a /tmp/ecc/.opencode/opencode.json ./opencode/
           fi
 
+          if [ -d ./opencode/commands ]; then
+            find ./opencode/commands -type f -exec sh -c '
+              for file do
+                first_line=$(sed -n "1p" "$file")
+                case "$first_line" in
+                  "python3 "*) rm -f "$file" ;;
+                esac
+              done
+            ' sh {} +
+          fi
+
       - name: Replace model names
         run: |
           find ./opencode -type f -exec perl -0pi -e '
             s|anthropic/claude-opus-4-5|openai/gpt-5.4|g;
             s|anthropic/claude-sonnet-4-5|openai/gpt-5.4|g;
             s|anthropic/claude-haiku-4-5|openai/gpt-5.4-mini|g;
+            s|agent: everything-claude-code:|agent: |g;
           ' {} +
 
       - name: Stage changes
