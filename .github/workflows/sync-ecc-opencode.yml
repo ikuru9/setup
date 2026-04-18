@@ -34,6 +34,12 @@ jobs:
 
           cp -a /tmp/ecc/.opencode/. ./opencode/
 
+          for f in AGENTS.md CONTRIBUTING.md; do
+            if [ -f "/tmp/ecc/$f" ]; then
+              cp "/tmp/ecc/$f" "./opencode/$f"
+            fi
+          done
+
           if [ -d /tmp/ecc/skills ]; then
             mkdir -p ./opencode/skills
             cp -a /tmp/ecc/skills/. ./opencode/skills/
