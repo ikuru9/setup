@@ -32,10 +32,7 @@ jobs:
           rm -rf ./opencode
           mkdir -p ./opencode
 
-          find /tmp/ecc/.opencode -mindepth 1 -maxdepth 1 -type d -exec cp -a {} ./opencode/ \;
-          if [ -f /tmp/ecc/.opencode/opencode.json ]; then
-            cp -a /tmp/ecc/.opencode/opencode.json ./opencode/
-          fi
+          cp -a /tmp/ecc/.opencode/. ./opencode/
 
           if [ -d ./opencode/commands ]; then
             find ./opencode/commands -type f -exec sh -c '

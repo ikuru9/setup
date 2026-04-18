@@ -9,3 +9,4 @@ jobs = 3
 [tools]
 bun = "latest"
 node = "lts"
+python = "latest"

@@ -1,5 +1,10 @@
 {
   "$schema": "zed://schemas/settings",
+  "agent_servers": {
+    "opencode": {
+      "type": "registry",
+    },
+  },
   "preferred_line_length": 120,
   "format_on_save": "on",
   "remove_trailing_whitespace_on_save": true,
