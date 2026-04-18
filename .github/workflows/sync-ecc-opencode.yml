@@ -27,12 +27,17 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/affaan-m/everything-claude-code.git /tmp/ecc
 
-      - name: Sync .opencode to opencode
+      - name: Sync .opencode and skills into opencode
         run: |
           rm -rf ./opencode
           mkdir -p ./opencode
 
           cp -a /tmp/ecc/.opencode/. ./opencode/
+
+          if [ -d /tmp/ecc/skills ]; then
+            mkdir -p ./opencode/skills
+            cp -a /tmp/ecc/skills/. ./opencode/skills/
+          fi
 
           if [ -d ./opencode/commands ]; then
             find ./opencode/commands -type f -exec sh -c '
