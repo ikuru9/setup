@@ -1,4 +1,4 @@
-name: Sync opencode from everything-claude-code
+name: Sync everything-claude-code
 
 on:
   workflow_dispatch:
@@ -29,6 +29,22 @@ jobs:
 
       - name: Sync .opencode and skills into opencode
         run: |
+          set -e
+
+          backup_dir=/tmp/opencode-local-backup
+          rm -rf "$backup_dir"
+          mkdir -p "$backup_dir"
+
+          if [ -f ./opencode/tui.json ]; then
+            mkdir -p "$backup_dir/opencode"
+            cp ./opencode/tui.json "$backup_dir/opencode/tui.json"
+          fi
+
+          if [ -f ./opencode/setup.sh ]; then
+            mkdir -p "$backup_dir/opencode"
+            cp ./opencode/setup.sh "$backup_dir/opencode/setup.sh"
+          fi
+
           rm -rf ./opencode
           mkdir -p ./opencode
 
@@ -84,6 +100,15 @@ jobs:
               end
             ' ./opencode/opencode.json >/tmp/opencode.json
             mv /tmp/opencode.json ./opencode/opencode.json
+          fi
+
+          if [ -f "$backup_dir/opencode/tui.json" ]; then
+            cp "$backup_dir/opencode/tui.json" ./opencode/tui.json
+          fi
+
+          if [ -f "$backup_dir/opencode/setup.sh" ]; then
+            cp "$backup_dir/opencode/setup.sh" ./opencode/setup.sh
+            chmod +x ./opencode/setup.sh
           fi
 
       - name: Replace model names

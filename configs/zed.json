@@ -237,7 +237,6 @@
     "**/.tap",
     "**/.nyc_output",
     "**/report",
-    "**/node_modules",
 
     "**/.cache",
     "**/.parcel-cache",
