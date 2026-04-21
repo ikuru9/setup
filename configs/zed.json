@@ -38,7 +38,7 @@
 
   "scrollbar": {
     "cursors": false,
-    "git_diff": false,
+    "git_diff": true,
   },
 
   "tab_bar": {
@@ -78,10 +78,21 @@
   },
   "git_panel": {
     "tree_view": true,
+    "status_style": "label_color",
+    "sort_by_path": true,
+    "collapse_untracked_diff": true,
   },
 
-  "theme": "Catppuccin Latte",
-  "icon_theme": "Catppuccin Latte",
+  "theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Macchiato",
+  },
+  "icon_theme": {
+    "mode": "system",
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Macchiato",
+  },
 
   "sticky_scroll": {
     "enabled": true,
@@ -194,16 +205,16 @@
       "settings": {
         "typescript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
+            "enabled": "always",
+          },
         },
         "javascript": {
           "updateImportsOnFileMove": {
-            "enabled": "always"
-          }
-        }
+            "enabled": "always",
+          },
+        },
       },
-      "enable_lsp_tasks": true
+      "enable_lsp_tasks": true,
     },
     "biome": {
       "settings": {
