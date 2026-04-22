@@ -6,8 +6,6 @@ cd ./setup
 ./setup.sh
 ```
 
-## sub modules
+## opencode configs
 
-```bash
-git submodule update --remote
-```
+- https://github.com/flpbalada/my-opencode-config

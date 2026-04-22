@@ -1,4 +1,10 @@
 {
+  "outline_panel": {
+    "dock": "right"
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
   "$schema": "zed://schemas/settings",
   "agent_servers": {
     "opencode": {
@@ -72,11 +78,13 @@
   },
 
   "project_panel": {
+    "dock": "right",
     "indent_guides": {
       "show": "always",
     },
   },
   "git_panel": {
+    "dock": "right",
     "tree_view": true,
     "status_style": "label_color",
     "sort_by_path": true,
@@ -99,6 +107,7 @@
   },
 
   "agent": {
+    "dock": "left",
     "commit_message_model": {
       "provider": "google",
       "model": "gemini-3-flash-preview",

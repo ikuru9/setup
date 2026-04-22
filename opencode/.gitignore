@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Package manager files (regenerated from lock files)
+bun.lock
+package.json
+
+# OS files
+.DS_Store
+
+# Editor/IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+.env
+
+opencode-notifier-state.json
