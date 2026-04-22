@@ -1,0 +1,4 @@
+[submodule "opencode"]
+    path = opencode
+    url = https://github.com/flpbalada/my-opencode-config
+    branch = main

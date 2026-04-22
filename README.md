@@ -5,3 +5,9 @@ git clone https://github.com/ikuru9/setup
 cd ./setup
 ./setup.sh
 ```
+
+## sub modules
+
+```bash
+git submodule update --remote
+```
