@@ -1,10 +1,4 @@
 {
-  "outline_panel": {
-    "dock": "right"
-  },
-  "collaboration_panel": {
-    "dock": "right"
-  },
   "$schema": "zed://schemas/settings",
   "agent_servers": {
     "opencode": {
@@ -46,7 +40,12 @@
     "cursors": false,
     "git_diff": true,
   },
-
+  "outline_panel": {
+    "dock": "right",
+  },
+  "collaboration_panel": {
+    "dock": "right",
+  },
   "tab_bar": {
     "show": true,
     "show_nav_history_buttons": true,
@@ -68,7 +67,7 @@
   },
 
   "title_bar": {
-    "show_branch_icon": true,
+    "show_branch_status_icon": true,
   },
 
   "git": {
@@ -107,6 +106,7 @@
   },
 
   "agent": {
+    "single_file_review": false,
     "dock": "left",
     "commit_message_model": {
       "provider": "google",

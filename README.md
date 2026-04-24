@@ -6,6 +6,6 @@ cd ./setup
 ./setup.sh
 ```
 
-## opencode configs
+## agent skills
 
-- https://github.com/flpbalada/my-opencode-config
+- https://skills.sh

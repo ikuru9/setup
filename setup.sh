@@ -75,6 +75,7 @@ link_file "$CONFIG_DIR/config.fish" "$HOME/.config/fish/config.fish"
 
 # 5. Fisher 설치
 echo "🎣 Setting up Fisher..."
+rm -rf "$HOME/.config/fish/functions/fisher.fish"
 curl -fsSL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish \
     -o "$HOME/.config/fish/functions/fisher.fish"
 
