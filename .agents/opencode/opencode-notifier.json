@@ -17,12 +17,12 @@
     "minDuration": 0
   },
   "events": {
-    "permission": { "sound": true, "notification": true },
-    "complete": { "sound": true, "notification": true },
-    "subagent_complete": { "sound": false, "notification": false },
-    "error": { "sound": true, "notification": true },
-    "question": { "sound": true, "notification": true },
-    "user_cancelled": { "sound": false, "notification": false }
+    "permission": { "notification": true },
+    "complete": { "notification": true },
+    "subagent_complete": { "notification": false },
+    "error": { "notification": true },
+    "question": {"notification": true },
+    "user_cancelled": { "notification": false }
   },
   "messages": {
     "permission": "Session needs permission: {sessionTitle}",

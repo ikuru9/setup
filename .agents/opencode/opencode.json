@@ -2,7 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
-    "@mohak34/opencode-notifier@latest"
+    "@mohak34/opencode-notifier@latest",
+    "superpowers@git+https://github.com/obra/superpowers.git"
   ],
   "default_agent": "build",
   "mcp": {
@@ -24,45 +25,6 @@
     }
   },
   "permission": {
-    "*": "allow",
-    "bash": {
-      "*": "allow",
-      "touch *": "ask",
-      "mkdir *": "ask",
-      "rm *": "ask",
-      "cp *": "ask",
-      "mv *": "ask",
-      "dd *": "ask",
-      "sudo *": "ask",
-      "chmod *": "ask",
-      "chown *": "ask",
-      "curl *": "ask",
-      "wget *": "ask",
-      "npm install *": "ask",
-      "pip install *": "ask",
-      "git push": "ask",
-      "git reset --hard *": "ask",
-      "git clean *": "ask",
-      "reboot": "ask",
-      "shutdown": "ask",
-      "kill *": "ask",
-      "killall *": "ask",
-      "docker *": "ask",
-      "mkfs *": "ask",
-      "fdisk *": "ask",
-      "parted *": "ask",
-      "format *": "ask",
-      "git branch -d *": "ask",
-      "git branch -D *": "ask",
-      "git rebase *": "ask",
-      "npm run publish": "ask",
-      "brew install *": "ask",
-      "brew upgrade *": "ask",
-      "ssh *": "ask",
-      "scp *": "ask",
-      "rsync *": "ask"
-    },
-    "doom_loop": "ask",
     "external_directory": "ask"
   }
 }
