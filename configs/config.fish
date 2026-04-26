@@ -5,6 +5,10 @@ if not status is-interactive
     exit
 end
 
+if test -d /opt/homebrew/share/fish/vendor_completions.d
+    set -p fish_complete_path /opt/homebrew/share/fish/vendor_completions.d
+end
+
 # ---------------------------------------------------------
 # Homebrew
 # ---------------------------------------------------------
