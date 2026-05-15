@@ -47,7 +47,7 @@ setup_brew_env
 # 2. 기본 formula 설치
 echo "📦 Installing CLI tools..."
 brew update
-brew install git git-delta fish starship fzf fd eza bat mise
+brew install git git-delta fish starship fzf fd eza bat mise ripgrep
 
 # 3. Git 설정
 echo "⚙️ Setting up Git..."
@@ -116,33 +116,34 @@ echo "🟢 Installing Node.js (LTS) with mise..."
 eval "$(mise activate bash)"
 mise use --global node@lts
 
-# 11. opencode 설정 설치
-echo "🔧 opencode 설정을 설치할까요?"
-read -r -p "설치하려면 'y'를 입력하세요. 아니면 종료합니다. [y/N]: " INSTALL_OPENCODE
-
-case "$INSTALL_OPENCODE" in
-    [yY]|[yY][eE][sS])
-        TARGET_DIR="$SCRIPT_DIR/opencode"
-
-        DEST_ROOT="$HOME/.config/opencode"
-
-        if [ -e "$DEST_ROOT" ] && [ ! -d "$DEST_ROOT" ]; then
-            echo "오류: $DEST_ROOT 가 디렉터리가 아닙니다."
-            ls -ld "$DEST_ROOT"
-            exit 1
-        fi
-
-        rm -rf "$DEST_ROOT"
-        mkdir -p "$DEST_ROOT"
-
-        cp -a "$TARGET_DIR"/. "$DEST_ROOT"/
-        echo "✅ opencode 설정 설치가 완료되었습니다."
-        ;;
-    *)
-        echo "⏹️ opencode 설정 설치를 건너뜁니다."
-        exit 0
-        ;;
-esac
+# 11. opencode / pi 설치
+echo "🔧 opencode 또는 pi를 설치할까요?"
+PS3="설치할 도구를 선택하세요: "
+select TOOL in opencode pi; do
+    case "$TOOL" in
+        opencode)
+            if command -v opencode >/dev/null 2>&1; then
+                echo "⬆️ Updating opencode..."
+            else
+                echo "📦 Installing opencode..."
+            fi
+            curl -fsSL https://opencode.ai/install | sh
+            break
+            ;;
+        pi)
+            if command -v pi >/dev/null 2>&1; then
+                echo "⬆️ Updating pi..."
+            else
+                echo "📦 Installing pi..."
+            fi
+            curl -fsSL https://pi.dev/install.sh | sh
+            break
+            ;;
+        *)
+            echo "다시 선택해 주세요."
+            ;;
+    esac
+done
 
 echo "✅ 모든 설정이 완료되었습니다."
 echo "ℹ️ 로그인 셸 변경이 반영되지 않았다면 터미널을 다시 시작해 주세요."

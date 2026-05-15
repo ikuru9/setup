@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "allowBrowserProcess": true,
+  "network": {
+    "allowLocalBinding": true,
+    "allowAllUnixSockets": true,
+    "allowedDomains": ["github.com", "*.github.com", "raw.githubusercontent.com", "mcp.context7.com"],
+    "deniedDomains": []
+  },
+  "filesystem": {
+    "denyRead": ["/Users", "/home"],
+    "allowRead": [".", "~/.config", "~/.local", "Library"],
+
+    "allowWrite": [".", "/tmp"],
+    "denyWrite": [".env", ".env.*", "*.pem", "*.key"]
+  }
+}

@@ -3,7 +3,7 @@
   "plugin": [
     "@franlol/opencode-md-table-formatter@latest",
     "@mohak34/opencode-notifier@latest",
-    "superpowers@git+https://github.com/obra/superpowers.git"
+    ".opencode/plugins/karpathy-guidelines.js"
   ],
   "default_agent": "build",
   "mcp": {
