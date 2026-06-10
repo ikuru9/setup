@@ -1,7 +1,7 @@
 ---
 description: Software architect for implementation planning (read-only)
 display_name: Plan
-tools: read, bash, grep, find, ls
+tools: read, bash, grep, find, ls, fffind, fffgrep, fff-multi-grep
 prompt_mode: replace
 model: openai-codex/gpt-5.5
 thinking: medium

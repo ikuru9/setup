@@ -163,17 +163,18 @@ install_pi_local_packages() {
 	fi
 
 	pi_packages='
-# git:github.com/tmdgusya/roach-pi
-npm:@tintinweb/pi-subagents
-npm:pi-mcp-adapter
-npm:pi-markdown-preview
 npm:pi-auto-theme
-npm:pi-sandbox
-npm:@ff-labs/pi-fff
+npm:pi-subagents
 npm:pi-lens
-npm:pi-powerline-footer
-npm:@samfp/pi-memory
+npm:@ff-labs/pi-fff
+npm:pi-mcp-adapter
+npm:pi-sandbox
+npm:pi-markdown-preview
 npm:@juicesharp/rpiv-web-tools
+npm:@juicesharp/rpiv-ask-user-question
+npm:@juicesharp/rpiv-todo
+npm:@narumitw/pi-statusline
+npm:@samfp/pi-memory
 '
 
 	(
@@ -211,7 +212,19 @@ while [ $# -gt 0 ]; do
 	esac
 done
 
-[ -n "$project_path" ] || die "--path is required"
+if [ -z "$project_path" ]; then
+	case "$(uname -s)" in
+	Darwin | Linux)
+		project_path="${HOME:-}"
+		;;
+	*)
+		project_path="${HOME:-}"
+		;;
+	esac
+
+	[ -n "$project_path" ] || die "HOME is not set; please provide --path"
+fi
+
 [ -d "$project_path" ] || die "project path is not a directory: $project_path"
 
 project_path="$(cd "$project_path" && pwd -P)"

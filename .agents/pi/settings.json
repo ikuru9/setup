@@ -1,5 +1,16 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4-mini",
-  "defaultThinkingLevel": "medium"
+  "defaultThinkingLevel": "medium",
+  "subagents": {
+      "agentOverrides": {
+        "reviewer": {
+          "model": "openai/gpt-5.4",
+          "thinking": "high"
+        },
+        "oracle": {
+          "model": "openai/gpt-5.4"
+        }
+      }
+    }
 }

@@ -9,9 +9,9 @@ cd ./setup
 ## agent setup
 
 ```bash
-./ai-settings-setup.sh --path PROJECT_PATH
+./ai-settings-setup.sh [--path PROJECT_PATH]
+```
 
 ## agent skills
 
 - https://skills.sh
-```
