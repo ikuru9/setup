@@ -5,11 +5,11 @@
   "subagents": {
       "agentOverrides": {
         "reviewer": {
-          "model": "openai/gpt-5.4",
+          "model": "openai-codex/gpt-5.4",
           "thinking": "high"
         },
         "oracle": {
-          "model": "openai/gpt-5.4"
+          "model": "openai-codex/gpt-5.4"
         }
       }
     }
