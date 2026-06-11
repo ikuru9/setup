@@ -12,6 +12,9 @@
       },
       "context-builder": {
         "disabled": true
+      },
+      "delegate": {
+        "disabled": true
       }
     }
   }
