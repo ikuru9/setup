@@ -3,14 +3,16 @@
   "defaultModel": "gpt-5.4-mini",
   "defaultThinkingLevel": "medium",
   "subagents": {
-      "agentOverrides": {
-        "reviewer": {
-          "model": "openai-codex/gpt-5.4",
-          "thinking": "high"
-        },
-        "oracle": {
-          "model": "openai-codex/gpt-5.4"
-        }
+    "agentOverrides": {
+      "scout": {
+        "disabled": true
+      },
+      "oracle": {
+        "disabled": true
+      },
+      "context-builder": {
+        "disabled": true
       }
     }
+  }
 }

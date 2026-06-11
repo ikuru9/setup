@@ -2,204 +2,345 @@
 
 set -eu
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd -P)"
+script_dir="$(cd "$(dirname "$0")" && pwd -P)"
 
 usage() {
-	printf 'Usage: %s --path <project-dir>\n' "${0##*/}"
+	printf '사용법: %s [--path <프로젝트-디렉터리>]\n' "${0##*/}"
 }
 
 die() {
-	printf 'Error: %s\n' "$1" >&2
+	printf '오류: %s\n' "$1" >&2
 	usage >&2
 	exit 1
 }
 
 warn() {
-	printf 'Warning: %s\n' "$1" >&2
+	printf '경고: %s\n' "$1" >&2
 }
 
-list_agents() {
-	agents_root=$1
+install_scope() {
+	if [ "$has_explicit_project_path" = "y" ]; then
+		printf '%s\n' "project"
+	else
+		printf '%s\n' "user"
+	fi
+}
 
-	for source in "$agents_root"/*; do
-		[ -d "$source" ] || continue
-		name=${source##*/}
-		[ "$name" = "skills" ] && continue
-		printf '%s\n' "$name"
+scope_base_dir() {
+	scope_name=$1
+
+	case "$scope_name" in
+	user)
+		[ -n "${HOME:-}" ] || die "HOME이 설정되어 있지 않습니다"
+		printf '%s\n' "$HOME"
+		;;
+	project)
+		[ -n "${project_path:-}" ] || die "프로젝트 경로가 설정되어 있지 않습니다"
+		printf '%s\n' "$project_path"
+		;;
+	*)
+		die "알 수 없는 설치 scope입니다: $scope_name"
+		;;
+	esac
+}
+
+resolve_scoped_path() {
+	user_relative_path=$1
+	project_relative_path=$2
+
+	case "$(install_scope)" in
+	user)
+		printf '%s/%s\n' "$(scope_base_dir user)" "$user_relative_path"
+		;;
+	project)
+		printf '%s/%s\n' "$(scope_base_dir project)" "$project_relative_path"
+		;;
+	esac
+}
+
+is_project_scope() {
+	[ "$(install_scope)" = "project" ]
+}
+
+list_agent_names() {
+	agents_root_dir=$1
+
+	for agent_source_path in "$agents_root_dir"/*; do
+		[ -d "$agent_source_path" ] || continue
+
+		agent_dir_name=${agent_source_path##*/}
+
+		case "$agent_dir_name" in
+		skills | docs)
+			continue
+			;;
+		esac
+
+		printf '%s\n' "$agent_dir_name"
 	done
 }
 
-choose_agent() {
-	agents=$1
-	set -- $agents
+choose_agent_name() {
+	available_agent_names=$1
+
+	set -- $available_agent_names
 
 	[ $# -gt 0 ] || return 1
-	[ $# -eq 1 ] && {
+
+	if [ $# -eq 1 ]; then
 		printf '%s\n' "$1"
-		return 0
-	}
-
-	printf 'Available agents:\n' >&2
-	for agent; do
-		printf ' - %s\n' "$agent" >&2
-	done
-
-	if command -v fzf >/dev/null 2>&1; then
-		choice="$(printf '%s\n' "$agents" | fzf --prompt='Select agent> ' --height=40% --layout=reverse --border --no-multi --select-1 --exit-0)"
-		[ -n "$choice" ] || return 1
-		printf '%s\n' "$choice"
 		return 0
 	fi
 
-	warn "fzf not found; falling back to numeric selection"
-	i=1
-	for agent; do
-		printf '%s) %s\n' "$i" "$agent" >&2
-		i=$((i + 1))
+	printf '사용 가능한 에이전트:\n' >&2
+	for agent_name_item; do
+		printf ' - %s\n' "$agent_name_item" >&2
 	done
 
-	printf 'Select agent number: ' >&2
-	IFS= read -r choice || return 1
+	if command -v fzf >/dev/null 2>&1; then
+		selected_agent_name="$(
+			printf '%s\n' "$available_agent_names" |
+				fzf \
+					--prompt='에이전트 선택> ' \
+					--height=40% \
+					--layout=reverse \
+					--border \
+					--no-multi \
+					--select-1 \
+					--exit-0
+		)"
 
-	case $choice in
-	'' | *[!0-9]*) return 1 ;;
+		[ -n "$selected_agent_name" ] || return 1
+
+		printf '%s\n' "$selected_agent_name"
+		return 0
+	fi
+
+	warn "fzf를 찾을 수 없어 숫자 선택 방식으로 전환합니다"
+
+	agent_index=1
+	for agent_name_item; do
+		printf '%s) %s\n' "$agent_index" "$agent_name_item" >&2
+		agent_index=$((agent_index + 1))
+	done
+
+	printf '에이전트 번호를 선택하세요: ' >&2
+	IFS= read -r selected_agent_index || return 1
+
+	case "$selected_agent_index" in
+	'' | *[!0-9]*)
+		return 1
+		;;
 	esac
 
-	i=1
-	for agent; do
-		if [ "$i" -eq "$choice" ]; then
-			printf '%s\n' "$agent"
+	agent_index=1
+	for agent_name_item; do
+		if [ "$agent_index" -eq "$selected_agent_index" ]; then
+			printf '%s\n' "$agent_name_item"
 			return 0
 		fi
-		i=$((i + 1))
+
+		agent_index=$((agent_index + 1))
 	done
 
 	return 1
 }
 
-link_entry() {
-	src=$1
-	dst=$2
+copy_entry() {
+	source_path=$1
+	destination_path=$2
 
-	if [ ! -e "$src" ]; then
+	if [ ! -e "$source_path" ] && [ ! -L "$source_path" ]; then
 		return 0
 	fi
 
-	mkdir -p "$(dirname "$dst")"
+	mkdir -p "$(dirname "$destination_path")"
 
-	if [ -e "$dst" ] || [ -L "$dst" ]; then
-		if [ -L "$dst" ]; then
-			rm -f "$dst"
-		else
-			warn "skip existing path: $dst"
+	if [ -L "$destination_path" ]; then
+		rm -f "$destination_path"
+	elif [ -e "$destination_path" ]; then
+		if [ -d "$source_path" ] && [ -d "$destination_path" ]; then
+			cp -a "$source_path"/. "$destination_path"/
+			printf '병합됨: %s -> %s\n' "$source_path" "$destination_path"
 			return 0
 		fi
+
+		warn "이미 존재하는 경로라 건너뜁니다: $destination_path"
+		return 0
 	fi
 
-	ln -s "$src" "$dst"
-	printf 'Linked %s -> %s\n' "$dst" "$src"
+	cp -a "$source_path" "$destination_path"
+	printf '복사됨: %s -> %s\n' "$source_path" "$destination_path"
 }
 
-copy_entry() {
-	src=$1
-	dst=$2
+copy_directory_entries_excluding() {
+	source_dir=$1
+	destination_dir=$2
+	excluded_entry_name=$3
 
-	if [ ! -e "$src" ]; then
-		return 0
-	fi
+	[ -d "$source_dir" ] || return 0
 
-	mkdir -p "$(dirname "$dst")"
+	mkdir -p "$destination_dir"
 
-	if [ -e "$dst" ] || [ -L "$dst" ]; then
-		if [ -L "$dst" ]; then
-			rm -f "$dst"
-		else
-			warn "skip existing path: $dst"
-			return 0
-		fi
-	fi
+	for child_source_path in \
+		"$source_dir"/* \
+		"$source_dir"/.[!.]* \
+		"$source_dir"/..?*; do
+		[ -e "$child_source_path" ] || [ -L "$child_source_path" ] || continue
 
-	cp -a "$src" "$dst"
-	printf 'Copied %s -> %s\n' "$dst" "$src"
+		child_entry_name=${child_source_path##*/}
+		[ "$child_entry_name" != "$excluded_entry_name" ] || continue
+
+		copy_entry "$child_source_path" "$destination_dir/$child_entry_name"
+	done
 }
 
 prompt_yes_no() {
-	question=$1
-	default=${2:-y}
+	question_text=$1
+	default_answer=${2:-y}
 
-	if [ "$default" = "n" ]; then
-		suffix='[y/N]'
+	if [ "$default_answer" = "n" ]; then
+		prompt_suffix='[y/N]'
 	else
-		suffix='[Y/n]'
+		prompt_suffix='[Y/n]'
 	fi
 
-	printf '%s %s ' "$question" "$suffix" >&2
-	IFS= read -r answer || answer=""
+	printf '%s %s ' "$question_text" "$prompt_suffix" >&2
+	IFS= read -r user_answer || user_answer=""
 
-	case $answer in
-	[Yy] | [Yy][Ee][Ss]) return 0 ;;
-	[Nn] | [Nn][Oo]) return 1 ;;
-	'') [ "$default" = "y" ] && return 0 || return 1 ;;
-	*) return 1 ;;
+	case "$user_answer" in
+	[Yy] | [Yy][Ee][Ss])
+		return 0
+		;;
+	[Nn] | [Nn][Oo])
+		return 1
+		;;
+	'')
+		[ "$default_answer" = "y" ] && return 0 || return 1
+		;;
+	*)
+		return 1
+		;;
 	esac
+}
+
+copy_selected_agent_entry() {
+	source_entry_path=$1
+	entry_name=${source_entry_path##*/}
+
+	if [ "$selected_agent_name" = "pi" ] && [ "$entry_name" = "agents" ]; then
+		copy_directory_entries_excluding \
+			"$source_entry_path" \
+			"$selected_agent_target_dir/$entry_name" \
+			"chains"
+		return 0
+	fi
+
+	copy_entry "$source_entry_path" "$selected_agent_target_dir/$entry_name"
+}
+
+install_common_docs() {
+	common_docs_dir="$agents_root_dir/docs"
+
+	if ! is_project_scope; then
+		warn "--path가 지정되지 않아 docs 설치를 건너뜁니다"
+		return 0
+	fi
+
+	[ -d "$common_docs_dir" ] || return 0
+
+	project_docs_dir="$(resolve_scoped_path "docs" "docs")"
+	mkdir -p "$project_docs_dir"
+	copy_entry "$common_docs_dir" "$project_docs_dir"
+}
+
+install_pi_chains() {
+	[ "$selected_agent_name" = "pi" ] || return 0
+
+	pi_chains_source_dir="$agents_root_dir/pi/agents/chains"
+	[ -d "$pi_chains_source_dir" ] || return 0
+
+	pi_chains_target_dir="$(
+		resolve_scoped_path \
+			".pi/agent/chains" \
+			".pi/chains"
+	)"
+
+	copy_entry "$pi_chains_source_dir" "$pi_chains_target_dir"
 }
 
 install_pi_local_packages() {
 	command -v pi >/dev/null 2>&1 || {
-		warn "pi command not found; skipping local package install"
+		warn "pi 명령을 찾을 수 없어 로컬 패키지 설치를 건너뜁니다"
 		return 0
 	}
 
-	if [ "$agent_name" != "pi" ]; then
+	if [ "$selected_agent_name" != "pi" ]; then
 		return 0
 	fi
 
-	if prompt_yes_no "Install pi-gitnexus?" y; then
+	if prompt_yes_no "codegraph CLI를 설치할까요?" y; then
 		if command -v npm >/dev/null 2>&1; then
-			npm i -g gitnexus
+			npm i -g @colbymchenry/codegraph
 		else
-			warn "npm command not found; skipping gitnexus install"
+			warn "npm 명령을 찾을 수 없어 codegraph CLI 설치를 건너뜁니다"
 		fi
 	fi
 
-	pi_packages='
+	pi_package_list='
 npm:pi-auto-theme
 npm:pi-subagents
+npm:pi-web-access
+npm:pi-intercom
 npm:pi-lens
+npm:pi-image-tools
+npm:pi-vision-proxy
 npm:@ff-labs/pi-fff
 npm:pi-mcp-adapter
 npm:pi-sandbox
 npm:pi-markdown-preview
-npm:@juicesharp/rpiv-web-tools
 npm:@juicesharp/rpiv-ask-user-question
 npm:@juicesharp/rpiv-todo
 npm:@narumitw/pi-statusline
 npm:@samfp/pi-memory
 '
 
+	if is_project_scope; then
+		pi_package_list="${pi_package_list}
+npm:@vndv/pi-codegraph
+"
+	fi
+
 	(
 		cd "$project_path"
 
-		printf '%s\n' "$pi_packages" | while IFS= read -r package; do
-			# 앞뒤 공백 제거 (trim)
-			package=$(echo "$package" | xargs)
+		printf '%s\n' "$pi_package_list" | while IFS= read -r raw_package_name; do
+			package_name=$(printf '%s' "$raw_package_name" | xargs)
 
-			# 빈 줄이거나 #으로 시작하는 주석 라인은 패스
-			[ -n "$package" ] || continue
-			[[ "$package" =~ ^# ]] && continue
+			[ -n "$package_name" ] || continue
 
-			pi install "$package"
+			case "$package_name" in
+			\#*)
+				continue
+				;;
+			esac
+
+			pi install "$package_name"
 		done
 	)
 }
 
 project_path=""
+has_explicit_project_path="n"
 
 while [ $# -gt 0 ]; do
 	case "$1" in
 	--path | -p)
-		[ $# -ge 2 ] || die "--path requires a value"
-		project_path="$2"
+		[ $# -ge 2 ] || die "--path에는 값이 필요합니다"
+
+		project_path=$2
+		has_explicit_project_path="y"
+
 		shift 2
 		;;
 	--help | -h)
@@ -207,54 +348,58 @@ while [ $# -gt 0 ]; do
 		exit 0
 		;;
 	*)
-		die "unknown argument: $1"
+		die "알 수 없는 인자입니다: $1"
 		;;
 	esac
 done
 
 if [ -z "$project_path" ]; then
-	case "$(uname -s)" in
-	Darwin | Linux)
-		project_path="${HOME:-}"
-		;;
-	*)
-		project_path="${HOME:-}"
-		;;
-	esac
-
-	[ -n "$project_path" ] || die "HOME is not set; please provide --path"
+	project_path="${HOME:-}"
+	[ -n "$project_path" ] || die "HOME이 설정되어 있지 않습니다. --path를 지정하세요"
 fi
 
-[ -d "$project_path" ] || die "project path is not a directory: $project_path"
+[ -d "$project_path" ] || die "프로젝트 경로가 디렉터리가 아닙니다: $project_path"
 
 project_path="$(cd "$project_path" && pwd -P)"
-printf 'Project: %s\n' "$project_path"
+printf '프로젝트: %s\n' "$project_path"
 
-agents_dir="$SCRIPT_DIR/.agents"
-[ -d "$agents_dir" ] || die "missing source .agents directory: $agents_dir"
+agents_root_dir="$script_dir/.agents"
+[ -d "$agents_root_dir" ] || die "원본 .agents 디렉터리를 찾을 수 없습니다: $agents_root_dir"
 
-agents="$(list_agents "$agents_dir")"
-agent_name="$(choose_agent "$agents")"
-[ -n "$agent_name" ] || die "no agent directories found in $agents_dir"
+available_agent_names="$(list_agent_names "$agents_root_dir")"
+selected_agent_name="$(choose_agent_name "$available_agent_names")"
+[ -n "$selected_agent_name" ] || die "$agents_root_dir 안에서 에이전트 디렉터리를 찾을 수 없습니다"
 
-source="$agents_dir/$agent_name"
-target="$project_path/.${agent_name}"
-mkdir -p "$target"
+selected_agent_source_dir="$agents_root_dir/$selected_agent_name"
+selected_agent_target_dir="$(
+	resolve_scoped_path \
+		".${selected_agent_name}" \
+		".${selected_agent_name}"
+)"
 
-for entry in "$source"/* "$source"/.[!.]* "$source"/..?*; do
-	[ -e "$entry" ] || continue
-	base=${entry##*/}
-	copy_entry "$entry" "$target/$base"
+mkdir -p "$selected_agent_target_dir"
+
+for source_entry_path in \
+	"$selected_agent_source_dir"/* \
+	"$selected_agent_source_dir"/.[!.]* \
+	"$selected_agent_source_dir"/..?*; do
+	[ -e "$source_entry_path" ] || [ -L "$source_entry_path" ] || continue
+
+	copy_selected_agent_entry "$source_entry_path"
 done
 
-if [ -f "$agents_dir/AGENTS.md" ]; then
-	copy_entry "$agents_dir/AGENTS.md" "$target/AGENTS.md"
+common_agents_file="$agents_root_dir/AGENTS.md"
+if [ -f "$common_agents_file" ]; then
+	copy_entry "$common_agents_file" "$selected_agent_target_dir/AGENTS.md"
 fi
 
-if [ -d "$agents_dir/skills" ]; then
-	link_entry "$agents_dir/skills" "$target/skills"
+common_skills_dir="$agents_root_dir/skills"
+if [ -d "$common_skills_dir" ]; then
+	copy_entry "$common_skills_dir" "$selected_agent_target_dir/skills"
 fi
 
+install_common_docs
+install_pi_chains
 install_pi_local_packages
 
-printf 'Done.\n'
+printf '완료되었습니다.\n'
