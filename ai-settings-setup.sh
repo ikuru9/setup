@@ -395,7 +395,12 @@ fi
 
 common_skills_dir="$agents_root_dir/skills"
 if [ -d "$common_skills_dir" ]; then
-	copy_entry "$common_skills_dir" "$selected_agent_target_dir/skills"
+	common_skills_target_dir="$(
+		resolve_scoped_path \
+			".pi/agent/skills" \
+			".pi/skills"
+	)"
+	copy_entry "$common_skills_dir" "$common_skills_target_dir"
 fi
 
 install_common_docs
