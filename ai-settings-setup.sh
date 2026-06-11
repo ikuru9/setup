@@ -4,6 +4,11 @@ set -eu
 
 script_dir="$(cd "$(dirname "$0")" && pwd -P)"
 
+PI_AGENT_SOURCE_DIR="$script_dir/.agents/pi/agent"
+PI_SKILLS_SOURCE_DIR="$script_dir/.agents/skills"
+PI_USER_TARGET_ROOT=".pi/agent"
+PI_PROJECT_TARGET_ROOT=".pi"
+
 usage() {
 	printf '사용법: %s [--path <프로젝트-디렉터리>]\n' "${0##*/}"
 }
@@ -146,55 +151,6 @@ choose_agent_name() {
 	return 1
 }
 
-copy_entry() {
-	source_path=$1
-	destination_path=$2
-
-	if [ ! -e "$source_path" ] && [ ! -L "$source_path" ]; then
-		return 0
-	fi
-
-	mkdir -p "$(dirname "$destination_path")"
-
-	if [ -L "$destination_path" ]; then
-		rm -f "$destination_path"
-	elif [ -e "$destination_path" ]; then
-		if [ -d "$source_path" ] && [ -d "$destination_path" ]; then
-			cp -a "$source_path"/. "$destination_path"/
-			printf '병합됨: %s -> %s\n' "$source_path" "$destination_path"
-			return 0
-		fi
-
-		warn "이미 존재하는 경로라 건너뜁니다: $destination_path"
-		return 0
-	fi
-
-	cp -a "$source_path" "$destination_path"
-	printf '복사됨: %s -> %s\n' "$source_path" "$destination_path"
-}
-
-copy_directory_entries_excluding() {
-	source_dir=$1
-	destination_dir=$2
-	excluded_entry_name=$3
-
-	[ -d "$source_dir" ] || return 0
-
-	mkdir -p "$destination_dir"
-
-	for child_source_path in \
-		"$source_dir"/* \
-		"$source_dir"/.[!.]* \
-		"$source_dir"/..?*; do
-		[ -e "$child_source_path" ] || [ -L "$child_source_path" ] || continue
-
-		child_entry_name=${child_source_path##*/}
-		[ "$child_entry_name" != "$excluded_entry_name" ] || continue
-
-		copy_entry "$child_source_path" "$destination_dir/$child_entry_name"
-	done
-}
-
 prompt_yes_no() {
 	question_text=$1
 	default_answer=${2:-y}
@@ -224,19 +180,124 @@ prompt_yes_no() {
 	esac
 }
 
-copy_selected_agent_entry() {
-	source_entry_path=$1
-	entry_name=${source_entry_path##*/}
+directory_has_files() {
+	dir_path=$1
 
-	if [ "$selected_agent_name" = "pi" ] && [ "$entry_name" = "agents" ]; then
-		copy_directory_entries_excluding \
-			"$source_entry_path" \
-			"$selected_agent_target_dir/$entry_name" \
-			"chains"
+	[ -d "$dir_path" ] || return 1
+
+	for child_source_path in \
+		"$dir_path"/* \
+		"$dir_path"/.[!.]* \
+		"$dir_path"/..?*; do
+		[ -e "$child_source_path" ] || [ -L "$child_source_path" ] || continue
+
+		if [ -L "$child_source_path" ] || [ -f "$child_source_path" ]; then
+			return 0
+		fi
+
+		if [ -d "$child_source_path" ] && directory_has_files "$child_source_path"; then
+			return 0
+		fi
+	done
+
+	return 1
+}
+
+copy_entry() {
+	source_path=$1
+	destination_path=$2
+
+	if [ ! -e "$source_path" ] && [ ! -L "$source_path" ]; then
 		return 0
 	fi
 
-	copy_entry "$source_entry_path" "$selected_agent_target_dir/$entry_name"
+	mkdir -p "$(dirname "$destination_path")"
+
+	if [ -L "$destination_path" ]; then
+		rm -f "$destination_path"
+	elif [ -e "$destination_path" ]; then
+		if [ -d "$source_path" ] && [ -d "$destination_path" ]; then
+			cp -a "$source_path"/. "$destination_path"/
+			printf '병합됨: %s -> %s\n' "$source_path" "$destination_path"
+			return 0
+		fi
+
+		warn "이미 존재하는 경로라 건너뜁니다: $destination_path"
+		return 0
+	fi
+
+	cp -a "$source_path" "$destination_path"
+	printf '복사됨: %s -> %s\n' "$source_path" "$destination_path"
+}
+
+copy_entry_if_populated() {
+	source_path=$1
+	destination_path=$2
+
+	if [ -d "$source_path" ] && ! directory_has_files "$source_path"; then
+		return 0
+	fi
+
+	copy_entry "$source_path" "$destination_path"
+}
+
+get_selected_agent_source_dir() {
+	case "$selected_agent_name" in
+	pi)
+		printf '%s\n' "$PI_AGENT_SOURCE_DIR"
+		;;
+	*)
+		printf '%s\n' "$agents_root_dir/$selected_agent_name"
+		;;
+	esac
+}
+
+get_selected_agent_target_root() {
+	case "$selected_agent_name" in
+	pi)
+		resolve_scoped_path "$PI_USER_TARGET_ROOT" "$PI_PROJECT_TARGET_ROOT"
+		;;
+	*)
+		resolve_scoped_path ".${selected_agent_name}" ".${selected_agent_name}"
+		;;
+	esac
+}
+
+get_selected_agent_skills_source_dir() {
+	case "$selected_agent_name" in
+	pi)
+		printf '%s\n' "$PI_SKILLS_SOURCE_DIR"
+		;;
+	*)
+		return 1
+		;;
+	esac
+}
+
+install_selected_agent_entries() {
+	[ -d "$selected_agent_source_dir" ] || return 0
+
+	for source_entry_path in \
+		"$selected_agent_source_dir"/* \
+		"$selected_agent_source_dir"/.[!.]* \
+		"$selected_agent_source_dir"/..?*; do
+		[ -e "$source_entry_path" ] || [ -L "$source_entry_path" ] || continue
+
+		copy_entry_if_populated \
+			"$source_entry_path" \
+			"$selected_agent_target_root/${source_entry_path##*/}"
+	done
+}
+
+install_selected_agent_skills() {
+	if ! selected_agent_skills_source_dir=$(get_selected_agent_skills_source_dir); then
+		return 0
+	fi
+
+	[ -d "$selected_agent_skills_source_dir" ] || return 0
+	copy_entry_if_populated \
+		"$selected_agent_skills_source_dir" \
+		"$selected_agent_target_root/skills"
 }
 
 install_common_docs() {
@@ -248,25 +309,7 @@ install_common_docs() {
 	fi
 
 	[ -d "$common_docs_dir" ] || return 0
-
-	project_docs_dir="$(resolve_scoped_path "docs" "docs")"
-	mkdir -p "$project_docs_dir"
-	copy_entry "$common_docs_dir" "$project_docs_dir"
-}
-
-install_pi_chains() {
-	[ "$selected_agent_name" = "pi" ] || return 0
-
-	pi_chains_source_dir="$agents_root_dir/pi/agents/chains"
-	[ -d "$pi_chains_source_dir" ] || return 0
-
-	pi_chains_target_dir="$(
-		resolve_scoped_path \
-			".pi/agent/chains" \
-			".pi/chains"
-	)"
-
-	copy_entry "$pi_chains_source_dir" "$pi_chains_target_dir"
+	copy_entry_if_populated "$common_docs_dir" "$(resolve_scoped_path "docs" "docs")"
 }
 
 install_pi_local_packages() {
@@ -370,41 +413,17 @@ available_agent_names="$(list_agent_names "$agents_root_dir")"
 selected_agent_name="$(choose_agent_name "$available_agent_names")"
 [ -n "$selected_agent_name" ] || die "$agents_root_dir 안에서 에이전트 디렉터리를 찾을 수 없습니다"
 
-selected_agent_source_dir="$agents_root_dir/$selected_agent_name"
-selected_agent_target_dir="$(
-	resolve_scoped_path \
-		".${selected_agent_name}" \
-		".${selected_agent_name}"
-)"
+selected_agent_source_dir="$(get_selected_agent_source_dir)"
+selected_agent_target_root="$(get_selected_agent_target_root)"
 
-mkdir -p "$selected_agent_target_dir"
-
-for source_entry_path in \
-	"$selected_agent_source_dir"/* \
-	"$selected_agent_source_dir"/.[!.]* \
-	"$selected_agent_source_dir"/..?*; do
-	[ -e "$source_entry_path" ] || [ -L "$source_entry_path" ] || continue
-
-	copy_selected_agent_entry "$source_entry_path"
-done
+install_selected_agent_entries
+install_selected_agent_skills
+install_common_docs
+install_pi_local_packages
 
 common_agents_file="$agents_root_dir/AGENTS.md"
 if [ -f "$common_agents_file" ]; then
-	copy_entry "$common_agents_file" "$selected_agent_target_dir/AGENTS.md"
+	copy_entry_if_populated "$common_agents_file" "$selected_agent_target_root/AGENTS.md"
 fi
-
-common_skills_dir="$agents_root_dir/skills"
-if [ -d "$common_skills_dir" ]; then
-	common_skills_target_dir="$(
-		resolve_scoped_path \
-			".pi/agent/skills" \
-			".pi/skills"
-	)"
-	copy_entry "$common_skills_dir" "$common_skills_target_dir"
-fi
-
-install_common_docs
-install_pi_chains
-install_pi_local_packages
 
 printf '완료되었습니다.\n'
