@@ -341,6 +341,7 @@ npm:@ff-labs/pi-fff
 npm:pi-mcp-adapter
 npm:pi-sandbox
 npm:pi-markdown-preview
+npm:@gotgenes/pi-permission-system
 npm:@juanibiapina/pi-powerbar
 npm:@juicesharp/rpiv-ask-user-question
 npm:@juicesharp/rpiv-todo
