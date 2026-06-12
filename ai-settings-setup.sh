@@ -332,7 +332,6 @@ install_pi_local_packages() {
 
 	pi_package_list='
 npm:pi-auto-theme
-npm:pi-subagents
 npm:pi-web-access
 npm:pi-intercom
 npm:pi-lens
@@ -342,9 +341,9 @@ npm:@ff-labs/pi-fff
 npm:pi-mcp-adapter
 npm:pi-sandbox
 npm:pi-markdown-preview
+npm:@juanibiapina/pi-powerbar
 npm:@juicesharp/rpiv-ask-user-question
 npm:@juicesharp/rpiv-todo
-npm:@narumitw/pi-statusline
 npm:@samfp/pi-memory
 '
 

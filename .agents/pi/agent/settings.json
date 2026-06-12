@@ -1,21 +1,5 @@
 {
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4-mini",
-  "defaultThinkingLevel": "medium",
-  "subagents": {
-    "agentOverrides": {
-      "scout": {
-        "disabled": true
-      },
-      "oracle": {
-        "disabled": true
-      },
-      "context-builder": {
-        "disabled": true
-      },
-      "delegate": {
-        "disabled": true
-      }
-    }
-  }
+  "defaultThinkingLevel": "medium"
 }
