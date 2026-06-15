@@ -1,0 +1,88 @@
+{
+  "$schema": "https://unpkg.com/@aliou/pi-guardrails/schema.json",
+  "features": {
+    "pathAccess": true
+  },
+  "pathAccess": {
+    "mode": "ask",
+    "allowedPaths": ["/tmp", "~/.cache/"]
+  },
+  "policies": {
+    "rules": [
+      {
+        "id": "example-regex-env",
+        "name": "Regex env files",
+        "description": "Regex example for env files",
+        "patterns": [
+          {
+            "pattern": "^\\.env(\\..+)?$",
+            "regex": true
+          }
+        ],
+        "allowedPatterns": [
+          {
+            "pattern": "^\\.env\\.example$",
+            "regex": true
+          }
+        ],
+        "protection": "noAccess",
+        "onlyIfExists": true,
+        "enabled": true
+      },
+      {
+        "id": "example-certificates",
+        "name": "Certificates",
+        "description": "Block certificate and key files",
+        "patterns": [
+          {
+            "pattern": "*.crt"
+          },
+          {
+            "pattern": "*.key"
+          },
+          {
+            "pattern": "*.p12"
+          }
+        ],
+        "allowedPatterns": [
+          {
+            "pattern": "*.csr"
+          }
+        ],
+        "protection": "noAccess",
+        "onlyIfExists": true,
+        "enabled": true
+      },
+      {
+        "id": "go-readonly",
+        "name": "Go dir read-only",
+        "patterns": [
+          { "pattern": "~/go/**" }
+        ],
+        "protection": "readOnly",
+        "onlyIfExists": true,
+        "enabled": true
+      }
+    ]
+  },
+  "permissionGate": {
+    "patterns": [
+      {
+        "pattern": "git push --force",
+        "description": "Git force push",
+        "regex": true
+      },
+      {
+        "pattern": "DROP DATABASE",
+        "description": "SQL database drop",
+        "regex": true
+      },
+      {
+        "pattern": "DROP TABLE",
+        "description": "SQL table drop",
+        "regex": true
+      }
+    ]
+  },
+  "version": "0.9.0-20260327"
+}

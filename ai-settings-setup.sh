@@ -213,21 +213,12 @@ copy_entry() {
 
 	mkdir -p "$(dirname "$destination_path")"
 
-	if [ -L "$destination_path" ]; then
-		rm -f "$destination_path"
-	elif [ -e "$destination_path" ]; then
-		if [ -d "$source_path" ] && [ -d "$destination_path" ]; then
-			cp -a "$source_path"/. "$destination_path"/
-			printf '병합됨: %s -> %s\n' "$source_path" "$destination_path"
-			return 0
-		fi
-
-		warn "이미 존재하는 경로라 건너뜁니다: $destination_path"
-		return 0
+	if [ -e "$destination_path" ] || [ -L "$destination_path" ]; then
+		rm -rf "$destination_path"
 	fi
 
 	cp -a "$source_path" "$destination_path"
-	printf '복사됨: %s -> %s\n' "$source_path" "$destination_path"
+	printf '덮어씀: %s -> %s\n' "$source_path" "$destination_path"
 }
 
 copy_entry_if_populated() {
@@ -333,19 +324,15 @@ install_pi_local_packages() {
 	pi_package_list='
 npm:pi-auto-theme
 npm:pi-web-access
-npm:pi-intercom
-npm:pi-lens
 npm:pi-image-tools
 npm:pi-vision-proxy
 npm:@ff-labs/pi-fff
 npm:pi-mcp-adapter
-npm:pi-sandbox
-npm:pi-markdown-preview
-npm:@gotgenes/pi-permission-system
+npm:@aliou/pi-guardrails
 npm:@juanibiapina/pi-powerbar
 npm:@juicesharp/rpiv-ask-user-question
 npm:@juicesharp/rpiv-todo
-npm:@samfp/pi-memory
+npm:@spences10/pi-lsp
 '
 
 	if is_project_scope; then
@@ -409,6 +396,8 @@ printf '프로젝트: %s\n' "$project_path"
 agents_root_dir="$script_dir/.agents"
 [ -d "$agents_root_dir" ] || die "원본 .agents 디렉터리를 찾을 수 없습니다: $agents_root_dir"
 
+common_agents_file="$agents_root_dir/AGENTS.md"
+
 available_agent_names="$(list_agent_names "$agents_root_dir")"
 selected_agent_name="$(choose_agent_name "$available_agent_names")"
 [ -n "$selected_agent_name" ] || die "$agents_root_dir 안에서 에이전트 디렉터리를 찾을 수 없습니다"
@@ -419,11 +408,11 @@ selected_agent_target_root="$(get_selected_agent_target_root)"
 install_selected_agent_entries
 install_selected_agent_skills
 install_common_docs
-install_pi_local_packages
 
-common_agents_file="$agents_root_dir/AGENTS.md"
 if [ -f "$common_agents_file" ]; then
 	copy_entry_if_populated "$common_agents_file" "$selected_agent_target_root/AGENTS.md"
 fi
+
+install_pi_local_packages
 
 printf '완료되었습니다.\n'
