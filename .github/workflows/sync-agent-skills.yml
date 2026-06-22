@@ -1,0 +1,54 @@
+name: Sync agent-skills folder
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+
+      - name: Clone source repository with sparse checkout
+        run: |
+          rm -rf /tmp/agent-skills
+
+          git clone \
+            --depth 1 \
+            --filter=blob:none \
+            --sparse \
+            --branch main \
+            https://github.com/addyosmani/agent-skills.git \
+            /tmp/agent-skills
+
+          cd /tmp/agent-skills
+          git sparse-checkout set skills
+
+      - name: Sync skills folder
+        run: |
+          mkdir -p .agent/skills
+
+          rsync -a --delete \
+            /tmp/agent-skills/skills/ \
+            .agent/skills/
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "ikuru9@gmail.com"
+
+          git add .agent/skills
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Sync addyosmani agent-skills"
+            git push
+          fi

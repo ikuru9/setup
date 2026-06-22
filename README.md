@@ -2,14 +2,14 @@
 
 ```bash
 git clone https://github.com/ikuru9/setup
-cd ./setup
+cd ./scripts/setup
 ./setup.sh
 ```
 
 ## agent setup
 
 ```bash
-./ai-settings-setup.sh [--path PROJECT_PATH]
+./scripts/ai-settings-setup.sh [--path PROJECT_PATH]
 ```
 
 ## agent skills

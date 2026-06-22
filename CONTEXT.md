@@ -21,3 +21,6 @@ The `chains` directory of `pi` chain definitions. _Avoid_: workflow configs
 
 **Skill set**:
 The shared `skills` directory used by `pi` agents. _Avoid_: skill configs
+
+**Prompt set**:
+The `prompts` directory of `pi` prompt templates used as slash commands. _Avoid_: prompt configs
