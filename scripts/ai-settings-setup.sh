@@ -319,12 +319,13 @@ npm:pi-auto-theme
 npm:pi-web-access
 npm:pi-image-tools
 npm:pi-vision-proxy
+npm:@tintinweb/pi-subagents
+npm:@tintinweb/pi-tasks
 npm:@ff-labs/pi-fff
 npm:pi-mcp-adapter
 npm:@gotgenes/pi-permission-system
 npm:@juanibiapina/pi-powerbar
 npm:@juicesharp/rpiv-ask-user-question
-npm:@juicesharp/rpiv-todo
 npm:@spences10/pi-lsp
 '
 
