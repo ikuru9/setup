@@ -1,282 +1,190 @@
 {
-  "diff_view_style": "split",
   "$schema": "zed://schemas/settings",
-  "agent_servers": {
-    "opencode": {
-      "type": "registry",
-    },
-  },
-  "preferred_line_length": 120,
-  "format_on_save": "on",
-  "remove_trailing_whitespace_on_save": true,
-  "ensure_final_newline_on_save": true,
-
-  "buffer_font_family": "FiraCode Nerd Font",
-  "buffer_font_fallbacks": ["FiraCode Nerd Font"],
-  "buffer_font_size": 16.0,
-  "buffer_line_height": "comfortable",
-  "ui_font_size": 16,
-
-  "base_keymap": "VSCode",
-  "tab_size": 2,
-  "max_tabs": 10,
-  "linked_edits": true,
-  "colorize_brackets": true,
-  "show_whitespaces": "selection",
-  "show_wrap_guides": true,
-  "scroll_beyond_last_line": "off",
-
-  "autosave": "on_window_change",
-  "restore_on_startup": "last_session",
-
-  "search": {
-    "case_sensitive": true,
-  },
-
-  "minimap": {
-    "show": "auto",
-  },
-
-  "scrollbar": {
-    "cursors": false,
-    "git_diff": true,
-  },
-  "outline_panel": {
-    "dock": "right",
-  },
-  "collaboration_panel": {
-    "dock": "right",
-  },
-  "tab_bar": {
-    "show": true,
-    "show_nav_history_buttons": true,
-    "show_tab_bar_buttons": true,
-  },
-
-  "tabs": {
-    "file_icons": true,
-    "git_status": true,
-    "show_diagnostics": "errors",
-  },
-
-  "toolbar": {
-    "breadcrumbs": true,
-    "quick_actions": true,
-    "selections_menu": true,
-    "agent_review": true,
-    "code_actions": false,
-  },
-
-  "title_bar": {
-    "show_branch_status_icon": true,
-  },
-
-  "git": {
-    "inline_blame": {
-      "enabled": false,
-    },
-  },
-
-  "project_panel": {
-    "dock": "right",
-    "indent_guides": {
-      "show": "always",
-    },
-  },
-  "git_panel": {
-    "dock": "right",
-    "tree_view": true,
-    "status_style": "label_color",
-    "sort_by_path": true,
-    "collapse_untracked_diff": true,
-  },
-
-  "theme": {
-    "mode": "system",
-    "light": "Catppuccin Latte",
-    "dark": "Catppuccin Macchiato",
-  },
-  "icon_theme": {
-    "mode": "system",
-    "light": "Catppuccin Latte",
-    "dark": "Catppuccin Macchiato",
-  },
-
-  "sticky_scroll": {
-    "enabled": true,
-  },
-
   "agent": {
-    "single_file_review": false,
-    "dock": "left",
     "commit_message_model": {
       "provider": "google",
-      "model": "gemini-3-flash-preview",
+      "model": "gemini-3.5-flash"
     },
+    "commit_message_instructions": "Generate a commit message compatible with @commitlint/config-conventional. Use the format <type>(<optional-scope>): <description>. Allowed types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test. Use a short lowercase English scope when applicable. Write the description in Korean unless the repository convention is English. Do not end the header with a period. Keep the entire header within 100 characters. Output only the commit message without Markdown, explanations, or quotes.",
+    "dock": "left",
+    "single_file_review": false
   },
-
+  "language_models": {
+    "opencode": {
+      "show_zen_models": false,
+      "show_go_models": false
+    }
+  },
   "auto_install_extensions": {
     "biome": true,
     "catppuccin": true,
     "catppuccin-icons": true,
-    "color-highlight": true,
     "codebook": true,
+    "color-highlight": true,
     "scss": true,
-    "vue": true,
+    "vue": true
   },
-
-  "languages": {
-    "JavaScript": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
-    },
-    "TypeScript": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-      "semantic_tokens": "combined",
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
-    },
-    "TSX": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-      "semantic_tokens": "combined",
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
-    },
-    "Vue.js": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-      "code_actions_on_format": {
-        "source.fixAll.biome": true,
-        "source.organizeImports.biome": true,
-      },
-    },
-    "JSON": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-    },
-    "CSS": {
-      "formatter": {
-        "language_server": {
-          "name": "biome",
-        },
-      },
-      "prettier": {
-        "allowed": false,
-      },
-      "language_servers": ["tailwindcss-intellisense-css"],
-    },
-    "Markdown": {
-      "remove_trailing_whitespace_on_save": false,
-    },
+  "autosave": "on_window_change",
+  "base_keymap": "VSCode",
+  "buffer_font_fallbacks": [
+    "FiraCode Nerd Font"
+  ],
+  "buffer_font_family": "Jetendard",
+  "buffer_font_size": 16,
+  "buffer_line_height": "comfortable",
+  "collaboration_panel": {
+    "dock": "right"
   },
-
-  "lsp": {
-    "vtsls": {
-      "settings": {
-        "typescript": {
-          "updateImportsOnFileMove": {
-            "enabled": "always",
-          },
-        },
-        "javascript": {
-          "updateImportsOnFileMove": {
-            "enabled": "always",
-          },
-        },
-      },
-      "enable_lsp_tasks": true,
-    },
-    "biome": {
-      "settings": {
-        "require_config_file": true,
-      },
-    },
-  },
-
+  "colorize_brackets": true,
   "context_servers": {
     "mcp-server-context7": {
       "enabled": true,
       "settings": {
-        "context7_api_key": "$CONTEXT7_API_KEY",
-      },
-    },
+        "context7_api_key": "$CONTEXT7_API_KEY"
+      }
+    }
   },
-
-  "terminal": {
-    "font_family": "FiraCode Nerd Font Mono",
-    "blinking": "off",
-    "line_height": "standard",
-  },
-
-  "use_system_path_prompts": true,
-
-  "file_scan_inclusions": [".env*"],
+  "diff_view_style": "split",
+  "ensure_final_newline_on_save": true,
   "file_scan_exclusions": [
     "**/.git",
     "**/.svn",
-    "**/.hg",
-    "**/.jj",
-    "**/CVS",
     "**/.DS_Store",
     "**/Thumbs.db",
-    "**/.classpath",
-    "**/.settings",
-
     "**/out",
     "**/dist",
-    "**/.husky",
-    "**/.turbo",
-    "**/.vscode-test",
-    "**/.vscode",
-    "**/.next",
-    "**/.storybook",
-    "**/.tap",
-    "**/.nyc_output",
     "**/report",
-
     "**/.cache",
     "**/.parcel-cache",
-    "**/.vite",
-    "**/.eslintcache",
+    "**/.eslintcache"
   ],
+  "file_scan_inclusions": [
+    ".env*"
+  ],
+  "format_on_save": "on",
+  "git": {
+    "inline_blame": {
+        "enabled": false
+    }
+  },
+  "git_panel": {
+    "collapse_untracked_diff": true,
+    "dock": "right",
+    "sort_by": "path",
+    "status_style": "label_color",
+    "tree_view": true
+  },
+  "icon_theme": {
+    "dark": "Catppuccin Macchiato",
+    "light": "Catppuccin Latte",
+    "mode": "system"
+  },
+  "prettier": {
+    "allowed": false
+  },
+  "formatter": {
+    "language_server": {
+      "name": "biome"
+    }
+  },
+  "languages": {
+    "JavaScript": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    },
+    "TSX": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      },
+      "semantic_tokens": "combined"
+    },
+    "Vue.js": {
+      "code_actions_on_format": {
+        "source.fixAll.biome": true,
+        "source.organizeImports.biome": true
+      }
+    }
+  },
+  "linked_edits": true,
+  "lsp": {
+      "biome": {
+        "settings": {
+          "require_config_file": true
+        }
+      },
+      "vtsls": {
+        "enable_lsp_tasks": true,
+        "settings": {
+          "javascript": {
+            "updateImportsOnFileMove": {
+                "enabled": "always"
+            }
+          },
+          "typescript": {
+            "updateImportsOnFileMove": {
+                "enabled": "always"
+            }
+          }
+        }
+      }
+  },
+  "max_tabs": 10,
+  "minimap": {
+    "show": "auto"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "preferred_line_length": 120,
+  "project_panel": {
+    "dock": "right",
+    "indent_guides": {
+      "show": "always"
+    }
+  },
+  "remove_trailing_whitespace_on_save": true,
+  "restore_on_startup": "last_session",
+  "scroll_beyond_last_line": "off",
+  "scrollbar": {
+    "show": "auto"
+  },
+  "search": {
+    "case_sensitive": true
+  },
+  "show_whitespaces": "selection",
+  "show_wrap_guides": true,
+  "sticky_scroll": {
+    "enabled": true
+  },
+  "tab_bar": {
+    "show": true,
+    "show_nav_history_buttons": true,
+    "show_tab_bar_buttons": true
+  },
+  "tab_size": 2,
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "errors"
+  },
+  "theme": {
+    "dark": "Catppuccin Macchiato",
+    "light": "Catppuccin Latte",
+    "mode": "system"
+  },
+  "title_bar": {
+    "show_branch_status_icon": true
+  },
+  "toolbar": {
+    "agent_review": true,
+    "breadcrumbs": true,
+    "code_actions": false,
+    "quick_actions": true,
+    "selections_menu": true
+  },
+  "ui_font_size": 16,
+  "use_system_path_prompts": true
 }
