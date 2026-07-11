@@ -5,8 +5,8 @@ set -eu
 current_dir="$(cd "$(dirname "$0")" && pwd -P)"
 script_dir="$(dirname "$current_dir")"
 
-PI_AGENT_SOURCE_DIR="$script_dir/.agents/pi/agent"
-PI_SKILLS_SOURCE_DIR="$script_dir/.agents/skills"
+PI_AGENT_SOURCE_DIR="$script_dir/agents/pi"
+PI_SKILLS_SOURCE_DIR="$script_dir/agents/skills"
 PI_USER_TARGET_ROOT=".pi/agent"
 PI_PROJECT_TARGET_ROOT=".pi"
 
@@ -381,8 +381,8 @@ fi
 project_path="$(cd "$project_path" && pwd -P)"
 printf '프로젝트: %s\n' "$project_path"
 
-agents_root_dir="$script_dir/.agents"
-[ -d "$agents_root_dir" ] || die "원본 .agents 디렉터리를 찾을 수 없습니다: $agents_root_dir"
+agents_root_dir="$script_dir/agents"
+[ -d "$agents_root_dir" ] || die "원본 agents 디렉터리를 찾을 수 없습니다: $agents_root_dir"
 
 common_agents_file="$agents_root_dir/AGENTS.md"
 

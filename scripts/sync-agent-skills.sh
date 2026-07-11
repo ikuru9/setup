@@ -9,7 +9,7 @@ TMP_DIR="$(mktemp -d)"
 
 SYNC_MAPPINGS=(
   "skills|.agents/skills"
-  "agents|.agents/pi/agent/agents"
+  "agents|agents/pi"
 )
 
 cleanup() {
