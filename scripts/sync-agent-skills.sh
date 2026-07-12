@@ -8,8 +8,8 @@ REPO_ROOT="$(cd "$script_dir/.." && pwd -P)"
 TMP_DIR="$(mktemp -d)"
 
 SYNC_MAPPINGS=(
-  "skills|.agents/skills"
-  "agents|agents/pi"
+  "skills|agents/skills"
+  "agents|agents/pi/agents"
 )
 
 cleanup() {
