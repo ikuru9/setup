@@ -24,7 +24,7 @@ jobs:
           git config user.name "github-actions"
           git config user.email "ikuru9@gmail.com"
 
-          git add .agents/skills
+          git add agents/skills
 
           if git diff --cached --quiet; then
             echo "No changes to commit"
