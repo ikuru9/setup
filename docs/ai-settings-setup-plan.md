@@ -10,10 +10,7 @@
 
 ## 현재 합의된 경로
 ### 소스
-- `agents`: `.agents/pi/agent/agents/`
-- `chains`: `.agents/pi/agent/chains/`
-- `skills`: `.agents/skills/`
-- root 설정 파일: `.agents/pi/agent/` 아래 파일들
+- root 설정 파일: `agents/pi/` 아래 파일들
 
 ### 대상
 - 사용자:
@@ -22,10 +19,7 @@
   - `.pi`
 
 ### 세부 매핑
-- `.agents/pi/agent/agents/` → `~/.pi/agent/agents/`, `<project>/.pi/agents/`
-- `.agents/pi/agent/chains/` → `~/.pi/agent/chains/`, `<project>/.pi/chains/`
-- `.agents/skills/` → `~/.pi/agent/skills/`, `<project>/.pi/skills/`
-- `.agents/pi/agent/*.json`, `APPEND_SYSTEM.md` → `~/.pi/agent/`, `<project>/.pi/`
+- `agents/pi/agent/*` → `~/.pi/agent/`, `<project>/.pi/`
 
 ## 스킵 규칙
 다음 경우에는 복사를 건너뛴다.

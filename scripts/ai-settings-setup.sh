@@ -281,17 +281,6 @@ install_selected_agent_entries() {
 	done
 }
 
-install_selected_agent_skills() {
-	if ! selected_agent_skills_source_dir=$(get_selected_agent_skills_source_dir); then
-		return 0
-	fi
-
-	[ -d "$selected_agent_skills_source_dir" ] || return 0
-	copy_entry_if_populated \
-		"$selected_agent_skills_source_dir" \
-		"$selected_agent_target_root/skills"
-}
-
 install_common_docs() {
 	common_docs_dir="$agents_root_dir/docs"
 
@@ -394,7 +383,6 @@ selected_agent_source_dir="$(get_selected_agent_source_dir)"
 selected_agent_target_root="$(get_selected_agent_target_root)"
 
 install_selected_agent_entries
-install_selected_agent_skills
 install_common_docs
 
 if [ -f "$common_agents_file" ]; then
