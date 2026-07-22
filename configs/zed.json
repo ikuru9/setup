@@ -3,7 +3,7 @@
   "agent": {
     "commit_message_model": {
       "provider": "google",
-      "model": "gemini-3.5-flash"
+      "model": "gemini-3.6-flash"
     },
     "commit_message_instructions": "Generate a commit message compatible with @commitlint/config-conventional. Use the format <type>(<optional-scope>): <description>. Allowed types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test. Use a short lowercase English scope when applicable. Write the description in Korean unless the repository convention is English. Do not end the header with a period. Keep the entire header within 100 characters. Output only the commit message without Markdown, explanations, or quotes.",
     "dock": "left",
