@@ -305,17 +305,15 @@ install_pi_local_packages() {
 
 	pi_package_list='
 npm:pi-auto-theme
+npm:pi-mcp-adapter
 npm:pi-web-access
-npm:pi-image-tools
-npm:pi-vision-proxy
 npm:@tintinweb/pi-subagents
 npm:@tintinweb/pi-tasks
 npm:@ff-labs/pi-fff
-npm:pi-mcp-adapter
 npm:@gotgenes/pi-permission-system
 npm:@juanibiapina/pi-powerbar
 npm:@juicesharp/rpiv-ask-user-question
-npm:@spences10/pi-lsp
+npm:@narumitw/pi-lsp
 '
 
 	(
