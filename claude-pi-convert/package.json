@@ -1,0 +1,44 @@
+{
+  "name": "claude-pi-convert",
+  "version": "0.1.0",
+  "description": "Convert Claude Code plugins into Pi coding-agent packages",
+  "type": "module",
+  "bin": {
+    "claude-pi-convert": "./dist/claude-pi-convert.mjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "dependencies": {
+    "jsonc-parser": "3.3.1",
+    "yaml": "2.8.1"
+  },
+  "devDependencies": {
+    "@tintinweb/pi-subagents": "0.14.2",
+    "@types/node": "24.10.1",
+    "esbuild": "0.25.12",
+    "pi-mcp-adapter": "2.11.0",
+    "pi-web-access": "0.13.0",
+    "typescript": "5.9.3",
+    "vitest": "4.0.15"
+  },
+  "keywords": [
+    "pi-package",
+    "claude-code",
+    "converter",
+    "coding-agent"
+  ],
+  "license": "MIT"
+}

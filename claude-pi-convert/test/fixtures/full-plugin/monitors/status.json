@@ -1,0 +1,8 @@
+{
+  "id": "fixture-status",
+  "label": "Fixture status",
+  "command": "node",
+  "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/monitor.mjs"],
+  "intervalMs": 60000,
+  "runOnStart": false
+}

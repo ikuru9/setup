@@ -1,0 +1,8 @@
+{
+  "name": "acme-dark",
+  "colors": {
+    "accent": "#7aa2f7",
+    "error": "#f7768e",
+    "success": "#9ece6a"
+  }
+}

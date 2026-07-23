@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "fixture": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/scripts/mcp-server.mjs"],
+      "env": {
+        "FIXTURE_TOKEN": "literal-secret-value",
+        "SAFE_FROM_ENV": "${SAFE_FROM_ENV}"
+      }
+    },
+    "remote": {
+      "url": "https://example.invalid/mcp",
+      "headers": {
+        "Authorization": "Bearer literal-secret-value"
+      }
+    }
+  }
+}
