@@ -96,7 +96,7 @@ echo "🖥️ Installing GUI apps..."
 brew install --cask \
     jordanbaird-ice \
     appcleaner \
-    raycast \
+    maccy \
     rectangle-pro \
     mos \
     zed \
