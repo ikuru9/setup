@@ -27,7 +27,7 @@
 	"autosave": "on_window_change",
 	"base_keymap": "VSCode",
 	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
-	"buffer_font_family": "Jetendard",
+	"buffer_font_family": "FiraCodeNerdFont-Pretendard",
 	"buffer_font_size": 16,
 	"buffer_line_height": "comfortable",
 	"collaboration_panel": {

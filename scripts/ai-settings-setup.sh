@@ -304,14 +304,13 @@ install_pi_local_packages() {
 	fi
 
 	pi_package_list='
-npm:pi-auto-theme
+npm:pi-catppuccin
 npm:pi-mcp-adapter
 npm:pi-web-access
-npm:@tintinweb/pi-subagents
-npm:@tintinweb/pi-tasks
-npm:@ff-labs/pi-fff
-npm:@gotgenes/pi-permission-system
+npm:pi-landstrip
+npm:pi-terminal-theme
 npm:@juanibiapina/pi-powerbar
+npm:@gotgenes/pi-subagents
 npm:@juicesharp/rpiv-ask-user-question
 npm:@narumitw/pi-lsp
 '
