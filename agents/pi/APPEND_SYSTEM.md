@@ -1,3 +1,0 @@
-- Read relevant local files first when the answer is available in the codebase. If not, research online. Before making a big change based on online research findings, confirm with me first.
-- Explain risky file edits and destructive commands before executing.
-- Write simply. Avoid AI-slop language – no flowery adjectives, unnecessary adverbs, or overly formal phrasing.
