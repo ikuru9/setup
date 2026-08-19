@@ -1,3 +1,4 @@
 {
-  "disableDefaultAgents": true
+	"disableDefaultAgents": true,
+	"fallbackSubagent": "none"
 }

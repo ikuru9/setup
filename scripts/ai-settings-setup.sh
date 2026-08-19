@@ -313,6 +313,8 @@ npm:@juanibiapina/pi-powerbar
 npm:@gotgenes/pi-subagents
 npm:@juicesharp/rpiv-ask-user-question
 npm:@narumitw/pi-lsp
+npm:@narumitw/pi-goal
+npm:@firstpick/pi-extension-safety-guard
 '
 
 	(
