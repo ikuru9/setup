@@ -9,6 +9,9 @@ PI_AGENT_SOURCE_DIR="$script_dir/agents/pi"
 PI_SKILLS_SOURCE_DIR="$script_dir/agents/skills"
 PI_USER_TARGET_ROOT=".pi/agent"
 PI_PROJECT_TARGET_ROOT=".pi"
+OMP_AGENT_SOURCE_DIR="$script_dir/agents/omp"
+OMP_USER_TARGET_ROOT=".omp/agent"
+OMP_PROJECT_TARGET_ROOT=".omp"
 
 usage() {
 	printf '사용법: %s [--path <프로젝트-디렉터리>]\n' "${0##*/}"
@@ -238,6 +241,9 @@ get_selected_agent_source_dir() {
 	pi)
 		printf '%s\n' "$PI_AGENT_SOURCE_DIR"
 		;;
+	omp)
+		printf '%s\n' "$OMP_AGENT_SOURCE_DIR"
+		;;
 	*)
 		printf '%s\n' "$agents_root_dir/$selected_agent_name"
 		;;
@@ -248,6 +254,9 @@ get_selected_agent_target_root() {
 	case "$selected_agent_name" in
 	pi)
 		resolve_scoped_path "$PI_USER_TARGET_ROOT" "$PI_PROJECT_TARGET_ROOT"
+		;;
+	omp)
+		resolve_scoped_path "$OMP_USER_TARGET_ROOT" "$OMP_PROJECT_TARGET_ROOT"
 		;;
 	*)
 		resolve_scoped_path ".${selected_agent_name}" ".${selected_agent_name}"
@@ -294,14 +303,14 @@ install_common_docs() {
 }
 
 install_pi_local_packages() {
+	if [ "$selected_agent_name" != "pi" ]; then
+		return 0
+	fi
+
 	command -v pi >/dev/null 2>&1 || {
 		warn "pi 명령을 찾을 수 없어 로컬 패키지 설치를 건너뜁니다"
 		return 0
 	}
-
-	if [ "$selected_agent_name" != "pi" ]; then
-		return 0
-	fi
 
 	pi_package_list='
 npm:pi-catppuccin
