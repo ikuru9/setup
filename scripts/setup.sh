@@ -51,7 +51,7 @@ brew install git git-delta fish starship fzf fd eza bat mise ripgrep
 
 # 3. Git 설정
 echo "⚙️ Setting up Git..."
-link_file "$CONFIG_DIR/gitconfig" "$HOME/.gitconfig"
+link_file "$CONFIG_DIR/.gitconfig" "$HOME/.gitconfig"
 
 # 4. Fish 설정
 echo "🐟 Setting up Fish..."

@@ -1,0 +1,225 @@
+```gitconfig
+[column]
+    ui = auto
+
+[branch]
+    # 최신 커밋 순으로 브랜치 정렬
+    sort = -committerdate
+
+[tag]
+    # 태그를 버전 순으로 정렬
+    sort = version:refname
+
+[init]
+    defaultBranch = main
+
+
+# -----------------------------------------------------------------------------
+# Diff / Merge
+# -----------------------------------------------------------------------------
+
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+
+[merge]
+    # diff3보다 가독성이 개선된 충돌 표시 방식
+    conflictstyle = zdiff3
+
+[apply]
+    # patch 적용 시 공백 오류 자동 수정
+    whitespace = fix
+
+
+# -----------------------------------------------------------------------------
+# Pull / Push / Fetch
+# -----------------------------------------------------------------------------
+
+[pull]
+    # git pull 시 rebase 대신 merge 사용
+    rebase = false
+
+[push]
+    default = simple
+
+    # upstream이 없는 새 브랜치를 처음 push할 때 자동 설정
+    autoSetupRemote = true
+
+    # push되는 커밋에 포함된 annotated tag도 같이 push
+    followTags = true
+
+[fetch]
+    # 원격에서 삭제된 브랜치를 로컬 remote-tracking branch에서도 제거
+    prune = true
+
+    # 원격에서 삭제된 태그도 정리
+    # 로컬 전용 태그를 사용하는 경우에는 false 또는 제거 권장
+    pruneTags = true
+
+    # 모든 remote를 항상 fetch하고 싶다면 활성화
+    # remote가 여러 개라면 필요할 때 `git fetch --all` 하는 편도 좋음
+    # all = true
+
+
+# -----------------------------------------------------------------------------
+# Commit / Rebase
+# -----------------------------------------------------------------------------
+
+[commit]
+    # 커밋 메시지 편집기 아래에 변경 사항(diff) 표시
+    verbose = true
+
+[rebase]
+    # fixup!/squash! 커밋을 interactive rebase 시 자동 정렬
+    autoSquash = true
+
+    # rebase 전에 변경사항을 자동 stash하고 완료 후 복원
+    autoStash = true
+
+    # rebase로 이동된 브랜치를 참조하는 다른 로컬 브랜치도 업데이트
+    updateRefs = true
+
+    # interactive rebase에서 커밋을 실수로 제거하면 경고
+    missingCommitsCheck = warn
+
+
+# -----------------------------------------------------------------------------
+# Conflict Resolution
+# -----------------------------------------------------------------------------
+
+[rerere]
+    # 이전에 해결했던 동일한 충돌 해결 방식을 기억
+    enabled = true
+
+    # 자동 해결 후 index까지 자동 stage하지 않음
+    # 직접 diff를 확인한 뒤 stage하는 쪽이 안전함
+    autoupdate = false
+
+
+# -----------------------------------------------------------------------------
+# Core
+# -----------------------------------------------------------------------------
+
+[core]
+    editor = zed --wait
+
+    # 전역 gitignore
+    excludesfile = ~/.gitignore
+
+    # 대형 저장소에서 git status 등의 성능 개선
+    # 환경에 따라 지원 여부가 다를 수 있음
+    fsmonitor = true
+    untrackedCache = true
+
+    # diff pager
+    pager = delta
+
+
+# -----------------------------------------------------------------------------
+# Delta
+# -----------------------------------------------------------------------------
+
+[delta]
+    line-numbers = true
+
+    # 넓은 터미널에서는 편리하지만 작은 화면에서는 false도 추천
+    side-by-side = true
+
+    # n / N 키로 diff 파일 간 이동
+    navigate = true
+
+    # diff-so-fancy 스타일
+    diff-so-fancy = true
+
+    # commit hash / 파일 경로 등에 hyperlink 지원
+    hyperlinks = true
+
+[interactive]
+    # git add -p 등 interactive diff에서도 delta 사용
+    diffFilter = delta --color-only
+
+
+# -----------------------------------------------------------------------------
+# Help
+# -----------------------------------------------------------------------------
+
+[help]
+    # 명령어 오타 시 자동 실행하지 않고 실행 여부 확인
+    autocorrect = prompt
+
+
+# -----------------------------------------------------------------------------
+# User
+# -----------------------------------------------------------------------------
+
+[user]
+    # Git이 OS 계정 정보 등으로 이름/이메일을 임의 추측하지 않도록 함
+    # user.name / user.email이 설정되어 있지 않으면 커밋을 중단
+    useConfigOnly = true
+
+    # 아래 값을 실제 정보로 설정하거나,
+    # 회사/개인 계정을 분리한다면 includeIf 사용 권장
+    #
+    # name = Your Name
+    # email = you@example.com
+
+
+# -----------------------------------------------------------------------------
+# Credential
+# -----------------------------------------------------------------------------
+
+# `helper = store`는 credential을 평문 파일에 저장하므로 비추천.
+# 아래에서 사용하는 OS에 맞는 helper 하나만 활성화.
+
+# macOS
+[credential]
+    helper = osxkeychain
+
+# Windows / Git Credential Manager
+# [credential]
+#     helper = manager
+
+# Linux + libsecret
+# [credential]
+#     helper = libsecret
+
+
+# -----------------------------------------------------------------------------
+# Optional Security
+# -----------------------------------------------------------------------------
+
+# bare repository를 직접 다루는 일이 거의 없다면 활성화 고려.
+# 예상하지 못한 bare repository를 암묵적으로 사용하는 것을 제한.
+#
+# 사용하는 Git 버전에서 지원하는지 확인 후 활성화 권장.
+#
+[safe]
+    bareRepository = explicit
+
+
+# -----------------------------------------------------------------------------
+# Optional: 회사 / 개인 Git 계정 분리
+# -----------------------------------------------------------------------------
+
+# 특정 디렉터리 아래의 repository에 별도 Git 설정 적용 가능.
+#
+# [includeIf "gitdir:~/workspace/company/"]
+#     path = ~/.gitconfig-company
+#
+# [includeIf "gitdir:~/workspace/personal/"]
+#     path = ~/.gitconfig-personal
+#
+# ~/.gitconfig-company 예:
+#
+# [user]
+#     name = Your Name
+#     email = you@company.com
+#
+# ~/.gitconfig-personal 예:
+#
+# [user]
+#     name = Your Name
+#     email = you@personal.com
+```
