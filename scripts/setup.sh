@@ -4,7 +4,7 @@ set -euo pipefail
 echo "🚀 시스템 설정을 시작합니다..."
 
 # 이 스크립트가 있는 디렉터리를 기준 경로로 사용
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_DIR="$SCRIPT_DIR/configs"
 
 require_file() {
@@ -115,35 +115,6 @@ link_file "$CONFIG_DIR/ghostty.conf" "$HOME/.config/ghostty/config"
 echo "🟢 Installing Node.js (LTS) with mise..."
 eval "$(mise activate bash)"
 mise use --global node@lts
-
-# 11. opencode / pi 설치
-echo "🔧 opencode 또는 pi를 설치할까요?"
-PS3="설치할 도구를 선택하세요: "
-select TOOL in opencode pi; do
-    case "$TOOL" in
-        opencode)
-            if command -v opencode >/dev/null 2>&1; then
-                echo "⬆️ Updating opencode..."
-            else
-                echo "📦 Installing opencode..."
-            fi
-            curl -fsSL https://opencode.ai/install | sh
-            break
-            ;;
-        pi)
-            if command -v pi >/dev/null 2>&1; then
-                echo "⬆️ Updating pi..."
-            else
-                echo "📦 Installing pi..."
-            fi
-            curl -fsSL https://pi.dev/install.sh | sh
-            break
-            ;;
-        *)
-            echo "다시 선택해 주세요."
-            ;;
-    esac
-done
 
 echo "✅ 모든 설정이 완료되었습니다."
 echo "ℹ️ 로그인 셸 변경이 반영되지 않았다면 터미널을 다시 시작해 주세요."
