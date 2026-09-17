@@ -4,7 +4,7 @@ set -euo pipefail
 echo "🚀 시스템 설정을 시작합니다..."
 
 # 이 스크립트가 있는 디렉터리를 기준 경로로 사용
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CONFIG_DIR="$SCRIPT_DIR/configs"
 
 require_file() {
