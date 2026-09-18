@@ -1,20 +1,4 @@
 {
-	"$schema": "zed://schemas/settings",
-	"agent": {
-		"commit_message_model": {
-			"provider": "google",
-			"model": "gemini-3.6-flash"
-		},
-		"commit_message_instructions": "Generate a commit message compatible with @commitlint/config-conventional. Use the format <type>(<optional-scope>): <description>. Allowed types: build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test. Use a short lowercase English scope when applicable. Write the description in Korean unless the repository convention is English. Do not end the header with a period. Keep the entire header within 100 characters. Output only the commit message without Markdown, explanations, or quotes.",
-		"dock": "left",
-		"single_file_review": false
-	},
-	"language_models": {
-		"opencode": {
-			"show_zen_models": false,
-			"show_go_models": false
-		}
-	},
 	"auto_install_extensions": {
 		"biome": true,
 		"catppuccin": true,
@@ -24,59 +8,56 @@
 		"scss": true,
 		"vue": true
 	},
-	"autosave": "on_window_change",
+
+	"agent": {
+		"commit_message_model": {
+			"provider": "google",
+			"model": "gemini-3.8-flash"
+		},
+		"commit_message_instructions": "Follow @commitlint/config-conventional. Write the description in Korean unless the project requires English. Use an optional lowercase scope when useful. Output only the commit message.",
+		"dock": "left"
+	},
+
+	"autosave": "on_focus_change",
+	"auto_signature_help": true,
 	"base_keymap": "VSCode",
-	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
+	"colorize_brackets": true,
+	"inlay_hints": {
+		"enabled": true,
+		"show_parameter_hints": false
+	},
+	"max_tabs": 10,
+	"preferred_line_length": 120,
+	"scroll_beyond_last_line": "off",
+	"sticky_scroll": {
+		"enabled": true
+	},
+	"tab_size": 2,
+	"use_smartcase_search": true,
+	"wrap_guides": [120],
+
 	"buffer_font_family": "FiraCodeNerdFont-Pretendard",
+	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
 	"buffer_font_size": 16,
 	"buffer_line_height": "comfortable",
-	"collaboration_panel": {
-		"dock": "right"
-	},
-	"colorize_brackets": true,
-	"context_servers": {
-		"mcp-server-context7": {
-			"enabled": true,
-			"settings": {
-				"context7_api_key": "$CONTEXT7_API_KEY"
-			}
-		}
-	},
-	"diff_view_style": "split",
+	"ui_font_size": 16,
+
 	"ensure_final_newline_on_save": true,
 	"file_scan_exclusions": [
-		"**/.git",
-		"**/.svn",
-		"**/.DS_Store",
-		"**/Thumbs.db",
+		"...",
 		"**/out",
 		"**/dist",
 		"**/.cache",
 		"**/.parcel-cache",
 		"**/.eslintcache"
 	],
-	"file_scan_inclusions": [".env*"],
 	"format_on_save": "on",
-	"git": {
-		"inline_blame": {
-			"enabled": false
-		}
-	},
-	"git_panel": {
-		"collapse_untracked_diff": true,
-		"dock": "right",
-		"sort_by": "path",
-		"status_style": "label_color",
-		"tree_view": true
-	},
-	"icon_theme": {
-		"dark": "Catppuccin Macchiato",
-		"light": "Catppuccin Latte",
-		"mode": "system"
-	},
+	"remove_trailing_whitespace_on_save": true,
+
 	"prettier": {
 		"allowed": false
 	},
+
 	"languages": {
 		"JavaScript": {
 			"formatter": {
@@ -87,8 +68,10 @@
 			"code_actions_on_format": {
 				"source.fixAll.biome": true,
 				"source.organizeImports.biome": true
-			}
+			},
+			"semantic_tokens": "combined"
 		},
+
 		"TypeScript": {
 			"formatter": {
 				"language_server": {
@@ -98,8 +81,10 @@
 			"code_actions_on_format": {
 				"source.fixAll.biome": true,
 				"source.organizeImports.biome": true
-			}
+			},
+			"semantic_tokens": "combined"
 		},
+
 		"TSX": {
 			"formatter": {
 				"language_server": {
@@ -112,6 +97,11 @@
 			},
 			"semantic_tokens": "combined"
 		},
+
+		"HTML": {
+			"formatter": "language_server"
+		},
+
 		"CSS": {
 			"formatter": {
 				"language_server": {
@@ -119,6 +109,14 @@
 				}
 			}
 		},
+
+		"SCSS": {
+			"prettier": {
+				"allowed": true
+			},
+			"formatter": "prettier"
+		},
+
 		"JSON": {
 			"formatter": {
 				"language_server": {
@@ -126,70 +124,101 @@
 				}
 			}
 		},
+
 		"JSONC": {
 			"formatter": {
 				"language_server": {
 					"name": "biome"
 				}
 			}
+		},
+
+		"YAML": {
+			"formatter": "language_server"
+		},
+
+		"Markdown": {
+			"soft_wrap": "editor_width"
 		}
 	},
-	"linked_edits": true,
-	"max_tabs": 10,
-	"minimap": {
-		"show": "auto"
+
+	"diagnostics": {
+		"inline": {
+			"enabled": true,
+			"max_severity": "error"
+		}
+	},
+	"preview_tabs": {
+		"enable_preview_from_file_finder": true
+	},
+
+	"git": {
+		"inline_blame": {
+			"enabled": false
+		}
+	},
+	"git_panel": {
+		"collapse_untracked_diff": true,
+		"dock": "right",
+		"status_style": "label_color",
+		"tree_view": true
+	},
+
+	"collaboration_panel": {
+		"dock": "right"
 	},
 	"outline_panel": {
 		"dock": "right"
 	},
-	"preferred_line_length": 120,
-	"project_panel": {
-		"dock": "right",
-		"indent_guides": {
-			"show": "always"
-		}
+	"resize_all_panels_in_dock": ["right"],
+
+	"minimap": {
+		"show": "auto"
 	},
-	"remove_trailing_whitespace_on_save": true,
-	"restore_on_startup": "last_session",
-	"scroll_beyond_last_line": "off",
 	"scrollbar": {
-		"show": "auto",
-		"git_diff": false
+		"git_diff": false,
+		"diagnostics": "error"
 	},
-	"search": {
-		"case_sensitive": true
-	},
-	"show_whitespaces": "selection",
-	"show_wrap_guides": true,
-	"sticky_scroll": {
-		"enabled": true
-	},
-	"tab_bar": {
-		"show": true,
-		"show_nav_history_buttons": true,
-		"show_tab_bar_buttons": true
-	},
-	"tab_size": 2,
 	"tabs": {
 		"file_icons": true,
 		"git_status": true,
 		"show_diagnostics": "errors"
+	},
+	"title_bar": {
+		"show_branch_status_icon": true
+	},
+
+	"icon_theme": {
+		"dark": "Catppuccin Macchiato",
+		"light": "Catppuccin Latte",
+		"mode": "system"
 	},
 	"theme": {
 		"dark": "Catppuccin Macchiato",
 		"light": "Catppuccin Latte",
 		"mode": "system"
 	},
-	"title_bar": {
-		"show_branch_status_icon": true
-	},
-	"toolbar": {
-		"agent_review": true,
-		"breadcrumbs": true,
-		"code_actions": false,
-		"quick_actions": true,
-		"selections_menu": true
-	},
-	"ui_font_size": 16,
-	"use_system_path_prompts": true
+	"theme_overrides": {
+		"Catppuccin Macchiato": {
+			"accents": [
+				"#b7bdf8",
+				"#7dc4e4",
+				"#eed49f",
+				"#f5a97f",
+				"#ed8796",
+				"#c6a0f6"
+			]
+		},
+		"Catppuccin Latte": {
+			"accents": [
+				"#7287fd",
+				"#209fb5",
+				"#40a02b",
+				"#df8e1d",
+				"#fe640b",
+				"#d20f39",
+				"#8839ef"
+			]
+		}
+	}
 }
