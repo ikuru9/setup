@@ -94,7 +94,7 @@ link_file "$CONFIG_DIR/mise.toml" "$HOME/.config/mise/config.toml"
 # 8. GUI 앱 설치
 echo "🖥️ Installing GUI apps..."
 brew install --cask \
-    jordanbaird-ice \
+    sane-apps/tap/sanebar \
     appcleaner \
     maccy \
     rectangle-pro \
