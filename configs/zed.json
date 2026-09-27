@@ -1,224 +1,149 @@
 {
-	"auto_install_extensions": {
-		"biome": true,
-		"catppuccin": true,
-		"catppuccin-icons": true,
-		"codebook": true,
-		"color-highlight": true,
-		"scss": true,
-		"vue": true
-	},
-
-	"agent": {
-		"commit_message_model": {
-			"provider": "google",
-			"model": "gemini-3.8-flash"
-		},
-		"commit_message_instructions": "Follow @commitlint/config-conventional. Write the description in Korean unless the project requires English. Use an optional lowercase scope when useful. Output only the commit message.",
-		"dock": "left"
-	},
-
-	"autosave": "on_focus_change",
-	"auto_signature_help": true,
-	"base_keymap": "VSCode",
-	"colorize_brackets": true,
-	"inlay_hints": {
-		"enabled": true,
-		"show_parameter_hints": false
-	},
-	"max_tabs": 10,
-	"preferred_line_length": 120,
-	"scroll_beyond_last_line": "off",
-	"sticky_scroll": {
-		"enabled": true
-	},
-	"tab_size": 2,
-	"use_smartcase_search": true,
-	"wrap_guides": [120],
-
-	"buffer_font_family": "FiraCodeNerdFont-Pretendard",
-	"buffer_font_fallbacks": ["FiraCode Nerd Font"],
-	"buffer_font_size": 16,
-	"buffer_line_height": "comfortable",
-	"ui_font_size": 16,
-
-	"ensure_final_newline_on_save": true,
-	"file_scan_exclusions": [
-		"...",
-		"**/out",
-		"**/dist",
-		"**/.cache",
-		"**/.parcel-cache",
-		"**/.eslintcache"
-	],
-	"format_on_save": "on",
-	"remove_trailing_whitespace_on_save": true,
-
-	"prettier": {
-		"allowed": false
-	},
-
-	"languages": {
-		"JavaScript": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			},
-			"code_actions_on_format": {
-				"source.fixAll.biome": true,
-				"source.organizeImports.biome": true
-			},
-			"semantic_tokens": "combined"
-		},
-
-		"TypeScript": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			},
-			"code_actions_on_format": {
-				"source.fixAll.biome": true,
-				"source.organizeImports.biome": true
-			},
-			"semantic_tokens": "combined"
-		},
-
-		"TSX": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			},
-			"code_actions_on_format": {
-				"source.fixAll.biome": true,
-				"source.organizeImports.biome": true
-			},
-			"semantic_tokens": "combined"
-		},
-
-		"HTML": {
-			"formatter": "language_server"
-		},
-
-		"CSS": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			}
-		},
-
-		"SCSS": {
-			"prettier": {
-				"allowed": true
-			},
-			"formatter": "prettier"
-		},
-
-		"JSON": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			}
-		},
-
-		"JSONC": {
-			"formatter": {
-				"language_server": {
-					"name": "biome"
-				}
-			}
-		},
-
-		"YAML": {
-			"formatter": "language_server"
-		},
-
-		"Markdown": {
-			"soft_wrap": "editor_width"
-		}
-	},
-
-	"diagnostics": {
-		"inline": {
-			"enabled": true,
-			"max_severity": "error"
-		}
-	},
-	"preview_tabs": {
-		"enable_preview_from_file_finder": true
-	},
-
-	"git": {
-		"inline_blame": {
-			"enabled": false
-		}
-	},
-	"git_panel": {
-		"collapse_untracked_diff": true,
-		"dock": "right",
-		"status_style": "label_color",
-		"tree_view": true
-	},
-
-	"collaboration_panel": {
-		"dock": "right"
-	},
-	"outline_panel": {
-		"dock": "right"
-	},
-	"resize_all_panels_in_dock": ["right"],
-
-	"minimap": {
-		"show": "auto"
-	},
-	"scrollbar": {
-		"git_diff": false,
-		"diagnostics": "error"
-	},
-	"tabs": {
-		"file_icons": true,
-		"git_status": true,
-		"show_diagnostics": "errors"
-	},
-	"title_bar": {
-		"show_branch_status_icon": true
-	},
-
-	"icon_theme": {
-		"dark": "Catppuccin Macchiato",
-		"light": "Catppuccin Latte",
-		"mode": "system"
-	},
-	"theme": {
-		"dark": "Catppuccin Macchiato",
-		"light": "Catppuccin Latte",
-		"mode": "system"
-	},
-	"theme_overrides": {
-		"Catppuccin Macchiato": {
-			"accents": [
-				"#b7bdf8",
-				"#7dc4e4",
-				"#eed49f",
-				"#f5a97f",
-				"#ed8796",
-				"#c6a0f6"
-			]
-		},
-		"Catppuccin Latte": {
-			"accents": [
-				"#7287fd",
-				"#209fb5",
-				"#40a02b",
-				"#df8e1d",
-				"#fe640b",
-				"#d20f39",
-				"#8839ef"
-			]
-		}
-	}
+  "auto_install_extensions": {
+    "biome": true,
+    "oxc": true,
+    "catppuccin": true,
+    "catppuccin-icons": true,
+    "codebook": true,
+    "color-highlight": true,
+    "scss": true
+  },
+  "agent": {
+    "commit_message_model": {
+      "provider": "google",
+      "model": "gemini-3.8-flash"
+    },
+    "commit_message_instructions": "Follow @commitlint/config-conventional. Write the description in Korean unless the project requires English. Use an optional lowercase scope when useful. Output only the commit message.",
+    "dock": "left"
+  },
+  "autosave": "on_focus_change",
+  "auto_signature_help": true,
+  "base_keymap": "VSCode",
+  "colorize_brackets": true,
+  "inlay_hints": {
+    "enabled": true,
+    "show_type_hints": false,
+    "show_parameter_hints": false
+  },
+  "max_tabs": 10,
+  "preferred_line_length": 120,
+  "scroll_beyond_last_line": "off",
+  "sticky_scroll": {
+    "enabled": true
+  },
+  "tab_size": 2,
+  "use_smartcase_search": true,
+  "wrap_guides": [
+    120
+  ],
+  "buffer_font_family": "FiraCodeNerdFont-Pretendard",
+  "buffer_font_fallbacks": [
+    "FiraCode Nerd Font"
+  ],
+  "buffer_font_size": 16,
+  "buffer_line_height": "comfortable",
+  "ui_font_size": 16,
+  "ensure_final_newline_on_save": true,
+  "file_scan_exclusions": [
+    "...",
+    "**/out",
+    "**/dist",
+    "**/.cache",
+    "**/.parcel-cache",
+    "**/.eslintcache"
+  ],
+  "format_on_save": "on",
+  "remove_trailing_whitespace_on_save": true,
+  "prettier": {
+    "allowed": false
+  },
+  "lsp": {
+    "biome": {
+      "settings": {
+        "require_config_file": true
+      }
+    }
+  },
+  "languages": {
+    "Markdown": {
+      "soft_wrap": "editor_width"
+    }
+  },
+  "diagnostics": {
+    "inline": {
+      "enabled": true,
+      "max_severity": "error"
+    }
+  },
+  "preview_tabs": {
+    "enable_preview_from_file_finder": true
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": false
+    }
+  },
+  "git_panel": {
+    "collapse_untracked_diff": true,
+    "dock": "right",
+    "status_style": "label_color",
+    "tree_view": true
+  },
+  "collaboration_panel": {
+    "dock": "right"
+  },
+  "outline_panel": {
+    "dock": "right"
+  },
+  "resize_all_panels_in_dock": [
+    "right"
+  ],
+  "minimap": {
+    "show": "auto"
+  },
+  "scrollbar": {
+    "git_diff": false,
+    "diagnostics": "error"
+  },
+  "tabs": {
+    "file_icons": true,
+    "git_status": true,
+    "show_diagnostics": "errors"
+  },
+  "title_bar": {
+    "show_branch_status_icon": true
+  },
+  "icon_theme": {
+    "dark": "Catppuccin Macchiato",
+    "light": "Catppuccin Latte",
+    "mode": "system"
+  },
+  "theme": {
+    "dark": "Catppuccin Macchiato",
+    "light": "Catppuccin Latte",
+    "mode": "system"
+  },
+  "theme_overrides": {
+    "Catppuccin Macchiato": {
+      "accents": [
+        "#b7bdf8",
+        "#7dc4e4",
+        "#eed49f",
+        "#f5a97f",
+        "#ed8796",
+        "#c6a0f6"
+      ]
+    },
+    "Catppuccin Latte": {
+      "accents": [
+        "#7287fd",
+        "#209fb5",
+        "#40a02b",
+        "#df8e1d",
+        "#fe640b",
+        "#d20f39",
+        "#8839ef"
+      ]
+    }
+  }
 }
