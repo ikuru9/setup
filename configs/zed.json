@@ -81,13 +81,14 @@
   "git": {
     "inline_blame": {
       "enabled": false
-    }
+    },
   },
   "git_panel": {
     "collapse_untracked_diff": true,
     "dock": "right",
     "status_style": "label_color",
-    "tree_view": true
+    "tree_view": true,
+    "entry_primary_click_action": "file_diff"
   },
   "collaboration_panel": {
     "dock": "right"
