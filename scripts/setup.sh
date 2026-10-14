@@ -102,7 +102,8 @@ brew install --cask \
     ghostty \
     libreoffice \
     libreoffice-language-pack \
-    font-fira-code-nerd-font
+    font-fira-code-nerd-font \
+    font-maple-mono
 
 # 9. Ghostty 설정
 # Ghostty는 내장 테마를 지원하므로 별도 테마 repo 복제 없이 config만 연결
